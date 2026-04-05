@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sivar - المنتجات والخدمات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F0F0F;
+            --card: #1A1A1A;
+            --card2: #222;
+            --gold: #D4AF37;
+            --gold2: #F7E7CE;
+            --orange: #D2691E;
+            --orange2: #E07C24;
+            --white: #FFF;
+            --gray: #B0B0B0;
+            --dim: #666
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            overflow-x: hidden
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 0%, rgba(212, 175, 55, .05) 0%, transparent 50%), radial-gradient(ellipse at 80% 100%, rgba(210, 105, 30, .03) 0%, transparent 50%)
+        }
+
+        /* Navbar */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: rgba(15, 15, 15, .96);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(212, 175, 55, .1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--bg);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, .25)
+        }
+
+        .nav-logo-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(to left, var(--gold), var(--gold2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            font-weight: 700;
+            font-size: .95rem;
+            padding: 10px 18px;
+            border-radius: 12px;
+            transition: .3s
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--gold);
+            background: rgba(212, 175, 55, .08)
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .auth-box {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--gold), #c9a22e);
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, .3);
+            transition: .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transform: skewX(-20deg);
+            animation: shine-box 3s infinite;
+        }
+
+        @keyframes shine-box {
+            0% {
+                left: -100%;
+            }
+
+            20% {
+                left: 200%;
+            }
+
+            100% {
+                left: 200%;
+            }
+        }
+
+        .auth-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, .5);
+        }
+
+        .auth-btn {
+            padding: 10px 22px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: .95rem;
+            color: #0F0F0F;
+            outline: none;
+            transition: .3s;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .auth-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        /* Layout */
+        .catalog-container {
+            padding: 100px 40px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .04);
+            border-radius: 20px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            padding-bottom: 25px;
+        }
+
+        .filter-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--white);
+        }
+
+        .filter-icon {
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .cat-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cat-tab {
+            position: relative;
+            overflow: hidden;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: .4s;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid rgba(255, 255, 255, .05);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            flex-direction: row-reverse;
+        }
+
+        .cat-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, .06);
+            color: var(--white);
+            border-color: rgba(212, 175, 55, .2);
+            transform: translateY(-2px);
+        }
+
+        .cat-tab.active {
+            background: linear-gradient(135deg, var(--gold), #c9a22e);
+            color: #000;
+            border: none;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, .3);
+            transform: translateY(-2px);
+        }
+
+        .cat-tab.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transform: skewX(-20deg);
+            animation: shine-btn 3s infinite;
+        }
+
+        @keyframes shine-btn {
+            0% {
+                left: -100%;
+            }
+
+            20% {
+                left: 200%;
+            }
+
+            100% {
+                left: 200%;
+            }
+        }
+
+        /* Custom Checkbox & Rating */
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .filter-item-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-count {
+            font-size: 0.8rem;
+            color: var(--dim);
+            background: rgba(255, 255, 255, .03);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .filter-label {
+            font-size: 0.95rem;
+            color: var(--gray);
+            font-weight: 700;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-item:hover .filter-label {
+            color: var(--white);
+        }
+
+        .custom-cb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid rgba(255, 255, 255, .2);
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .3s;
+        }
+
+        .custom-cb:checked {
+            background: transparent;
+            border-color: var(--gold);
+        }
+
+        .custom-cb:checked::after {
+            content: '✓';
+            color: var(--gold);
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .rating-stars {
+            color: var(--gold);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-stars .dim {
+            color: #444;
+        }
+
+        /* ── Category Dropdown ── */
+        .cat-dropdown-wrap {
+            position: relative;
+        }
+
+        .cat-dropdown {
+            width: 100%;
+            background: #111;
+            border: 1px solid rgba(212, 175, 55, .15);
+            border-radius: 14px;
+            padding: 14px 18px;
+            padding-left: 40px;
+            color: var(--white);
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            transition: .3s;
+            direction: rtl;
+        }
+
+        .cat-dropdown:hover {
+            border-color: rgba(212, 175, 55, .35);
+            background: rgba(212, 175, 55, .04);
+        }
+
+        .cat-dropdown:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, .1);
+        }
+
+        .cat-dropdown option {
+            background: #1A1A1A;
+            color: var(--white);
+            padding: 12px;
+            font-weight: 700;
+        }
+
+        .cat-dropdown option:disabled {
+            color: var(--gold);
+            font-weight: 900;
+            background: #111;
+        }
+
+        .cat-dropdown-arrow {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            pointer-events: none;
+            transition: .3s;
+        }
+
+        .cat-dropdown-wrap:hover .cat-dropdown-arrow {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .cat-selected-badge {
+            display: none;
+            margin-top: 10px;
+            background: rgba(212, 175, 55, .08);
+            border: 1px solid rgba(212, 175, 55, .2);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cat-selected-badge .clear-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0 4px;
+            transition: .3s;
+        }
+
+        .cat-selected-badge .clear-btn:hover {
+            color: #ff5555;
+        }
+
+        /* Dual Range Slider */
+        .price-range-wrap {
+            margin-top: 10px;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .price-input-box {
+            flex: 1;
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, .05);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .price-input-box span {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .price-input-box input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--white);
+            outline: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .price-sep {
+            color: var(--dim);
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .slider-track {
+            position: absolute;
+            height: 100%;
+            background: var(--gold);
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(212, 175, 55, .2);
+        }
+
+        .range-input {
+            position: absolute;
+            top: -7px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            appearance: none;
+            background: none;
+            pointer-events: none;
+        }
+
+        .range-input::-webkit-slider-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            pointer-events: auto;
+            appearance: none;
+            cursor: pointer;
+            transition: .1s;
+            box-shadow: 0 0 10px rgba(212, 175, 55, .6);
+        }
+
+        .range-input::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .range-input::-webkit-slider-thumb:active {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, .9);
+        }
+
+        .action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-apply {
+            padding: 14px;
+            background: var(--gold);
+            border: none;
+            border-radius: 12px;
+            color: var(--bg);
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .btn-apply:hover {
+            background: var(--orange);
+        }
+
+        .btn-reset {
+            padding: 14px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .05);
+            border-radius: 12px;
+            color: var(--dim);
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .btn-reset:hover {
+            border-color: rgba(255, 255, 255, .1);
+            color: var(--white);
+        }
+
+        /* Main Content Area */
+        .main-area {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card);
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .04);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            width: 350px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--white);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .search-box svg {
+            fill: var(--gray);
+            margin-right: 10px;
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .p-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .04);
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: .4s;
+            position: relative;
+        }
+
+        .p-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, .15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
+        }
+
+        .p-img {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .p-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .p-card:hover .p-img img {
+            transform: scale(1.08);
+        }
+
+        .p-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, .65);
+            color: var(--gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+            border: 1px solid rgba(212, 175, 55, .4);
+            backdrop-filter: blur(5px);
+        }
+
+        .p-body {
+            padding: 16px;
+        }
+
+        .p-store {
+            font-size: .75rem;
+            color: var(--dim);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .p-rating {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .p-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .p-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 12px;
+            height: 38px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .p-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .p-price {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--orange);
+        }
+
+        .p-old {
+            font-size: .8rem;
+            color: var(--dim);
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        .p-price sub {
+            font-size: 0.65rem;
+            color: var(--dim);
+            vertical-align: baseline;
+        }
+
+        .loading-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 0;
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 0;
+            color: var(--gray);
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: .3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .05);
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            transform: translateY(20px) scale(0.95);
+            transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .05);
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(212, 175, 55, .15);
+            color: var(--gold);
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .modal-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #modalImg {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .05);
+        }
+
+        .modal-thumbs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .modal-thumbs img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: .3s;
+            opacity: 0.7;
+        }
+
+        .modal-thumbs img:hover,
+        .modal-thumbs img.active {
+            border-color: var(--gold);
+            opacity: 1;
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .m-vendor {
+            font-size: 0.9rem;
+            color: var(--dim);
+            margin-bottom: 5px;
+        }
+
+        .m-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .m-rating {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .m-desc {
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        .m-price-wrap {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(212, 175, 55, .05);
+            border: 1px dashed rgba(212, 175, 55, .2);
+            border-radius: 12px;
+        }
+
+        .m-price-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--orange);
+        }
+
+        @media(max-width: 900px) {
+            .catalog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #modalImg {
+                height: 250px;
+            }
+        }
+
+        /* Pagination */
+        .pagination-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            padding: 20px 0;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            background: #1A1A1A;
+            border: 1px solid rgba(255, 255, 255, .05);
+            border-radius: 12px;
+            color: var(--gray);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover:not(.active):not(.disabled) {
+            background: #222;
+            color: var(--white);
+            border-color: rgba(212, 175, 55, .2);
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background: var(--gold);
+            color: var(--bg);
+            border: none;
+            box-shadow: 0 0 15px rgba(212, 175, 55, .4);
+            transform: translateY(-2px);
+            font-weight: 900;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-bg"></div>
+
+    <!-- Navbar -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/">الرئيسية</a></li>
+            <li><a href="/catalog/" class="active">السوق بلس</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="auth-box">
+                <a href="/login/" class="auth-btn">دخول</a>
+                <div class="auth-divider"></div>
+                <a href="/register/" class="auth-btn">تسجيل جديد</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="catalog-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="filter-group">
+                <div class="filter-header">
+                    <h3 class="filter-title">التبويب الأساسي</h3>
+                </div>
+                <div class="cat-tabs">
+                    <button class="cat-tab active" data-type="products" onclick="switchTab('products')">🛍️ المنتجات
+                        المادية</button>
+                    <button class="cat-tab" data-type="services" onclick="switchTab('services')">💼 الخدمات
+                        والأعمال</button>
+                </div>
+            </div>
+
+            <div class="filter-group" id="categoryFilterBlock">
+                <div class="filter-header">
+                    <h3 class="filter-title">التصنيف</h3>
+                    <div class="filter-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="cat-dropdown-wrap">
+                    <select id="categoryDropdown" class="cat-dropdown" onchange="applyFilters()">
+                        <option value="all">🏷️ جميع التصنيفات</option>
+                    </select>
+                    <span class="cat-dropdown-arrow">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                    </span>
+                </div>
+                <div id="catSelectedBadge" class="cat-selected-badge" style="display:none">
+                    <span id="catBadgeText">التصنيف المحدد</span>
+                    <button class="clear-btn" onclick="clearCategorySelection()" title="مسح">✕</button>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-header">
+                    <h3 class="filter-title">نطاق السعر</h3>
+                    <div class="filter-icon"><span style="font-weight:900; font-size:1.1rem; line-height:1;">$</span>
+                    </div>
+                </div>
+                <div class="price-range-wrap">
+                    <div class="price-inputs">
+                        <div class="price-input-box">
+                            <input type="number" id="minPriceInput" value="0">
+                            <span>دج</span>
+                        </div>
+                        <span class="price-sep">-</span>
+                        <div class="price-input-box">
+                            <input type="number" id="maxPriceInput" value="100000">
+                            <span>دج</span>
+                        </div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-track" id="sliderTrack"></div>
+                        <input type="range" class="range-input" id="rangeMin" min="0" max="1000000" value="0"
+                            step="1000">
+                        <input type="range" class="range-input" id="rangeMax" min="0" max="1000000" value="1000000"
+                            step="1000">
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-header">
+                    <h3 class="filter-title">التقييم</h3>
+                    <div class="filter-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="filter-list" id="ratingsList">
+                    <!-- Ratings will be populated statically here with dynamic counts later -->
+                    <label class="filter-item">
+                        <div class="filter-item-right">
+                            <input type="checkbox" class="custom-cb rating-cb" value="5" onchange="applyFilters()">
+                            <span class="filter-label rating-stars">★★★★★</span>
+                        </div>
+                        <span class="filter-count" id="count-r5">0</span>
+                    </label>
+                    <label class="filter-item">
+                        <div class="filter-item-right">
+                            <input type="checkbox" class="custom-cb rating-cb" value="4" onchange="applyFilters()">
+                            <span class="filter-label rating-stars">★★★★<span class="dim">★</span></span>
+                        </div>
+                        <span class="filter-count" id="count-r4">0</span>
+                    </label>
+                    <label class="filter-item">
+                        <div class="filter-item-right">
+                            <input type="checkbox" class="custom-cb rating-cb" value="3" onchange="applyFilters()">
+                            <span class="filter-label rating-stars">★★★<span class="dim">★★</span></span>
+                        </div>
+                        <span class="filter-count" id="count-r3">0</span>
+                    </label>
+                    <label class="filter-item">
+                        <div class="filter-item-right">
+                            <input type="checkbox" class="custom-cb rating-cb" value="2" onchange="applyFilters()">
+                            <span class="filter-label rating-stars">★★<span class="dim">★★★</span></span>
+                        </div>
+                        <span class="filter-count" id="count-r2">0</span>
+                    </label>
+                    <label class="filter-item">
+                        <div class="filter-item-right">
+                            <input type="checkbox" class="custom-cb rating-cb" value="1" onchange="applyFilters()">
+                            <span class="filter-label rating-stars">★<span class="dim">★★★★</span></span>
+                        </div>
+                        <span class="filter-count" id="count-r1">0</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="action-btns">
+                <button class="btn-apply" onclick="applyFilters()">تطبيق الفلاتر</button>
+                <button class="btn-reset" onclick="resetFilters()">إعادة تعيين</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-area">
+            <div class="top-bar">
+                <h2 id="pageTitle" style="color: var(--gold);">المنتجات المتوفرة</h2>
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path
+                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="ابحث هنا..." onkeyup="applyFilters()">
+                </div>
+            </div>
+
+            <div id="loadingState" class="loading-state">جاري التحميل...</div>
+            <div id="emptyState" class="empty-state">لا توجد نتائج مطابقة لطلبك.</div>
+            <div class="items-grid" id="itemsGrid">
+                <!-- Items will be injected here via JS -->
+            </div>
+
+            <!-- Pagination Section -->
+            <div class="pagination-wrap" id="paginationContainer">
+                <!-- Pagination buttons will be injected here -->
+            </div>
+        </main>
+        <!-- Modal Template -->
+        <div id="productModal" class="modal-overlay" onclick="closeModal(event)">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <button class="modal-close" onclick="closeModal(event)">×</button>
+                <div class="modal-grid">
+                    <div class="modal-gallery">
+                        <img id="modalImg" src="" alt="Main Image">
+                        <div class="modal-thumbs" id="modalThumbs"></div>
+                    </div>
+                    <div class="modal-info">
+                        <div class="m-vendor" id="m-vendor"></div>
+                        <h2 class="m-title" id="m-title"></h2>
+                        <div class="m-rating" id="m-rating"></div>
+
+                        <h3 style="margin-top:20px; color:var(--gold);">الوصف</h3>
+                        <p class="m-desc" id="m-desc"></p>
+
+                        <div class="m-price-wrap">
+                            <div id="m-old-price" class="p-old"></div>
+                            <div id="m-price" class="m-price-val"></div>
+                        </div>
+
+                        <button class="price-btn"
+                            style="margin-top: 30px; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(212,175,55,.3);"
+                            onclick="goToStore()" id="m-store-btn">زيارة صفحة المتجر والمراسلة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // State management
+            let state = {
+                currentTab: 'products', // 'products' or 'services'
+                allProducts: [],
+                allServices: [],
+                isLoading: false,
+                currentPage: 1,
+                pageSize: 12,
+                filteredTotal: 0
+            };
+
+            const grid = document.getElementById('itemsGrid');
+            const loadState = document.getElementById('loadingState');
+            const empState = document.getElementById('emptyState');
+            const pageTitle = document.getElementById('pageTitle');
+
+            // DOM Elements for Filters
+            const rangeMin = document.getElementById('rangeMin');
+            const rangeMax = document.getElementById('rangeMax');
+            const minInput = document.getElementById('minPriceInput');
+            const maxInput = document.getElementById('maxPriceInput');
+            const sliderTrack = document.getElementById('sliderTrack');
+            const categoriesList = document.getElementById('categoriesList');
+
+            // Default Images
+            const fallbackProductImg = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80";
+            const fallbackServiceImg = "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&q=80";
+
+            // Format currency without DA string for inputs
+            const formatNumber = (num) => new Intl.NumberFormat('en-US').format(num).replace(/,/g, '');
+            const formatPrice = (price) => new Intl.NumberFormat('ar-DZ').format(price || 0) + ' دج';
+
+            // Fetch API Data
+            async function fetchCatalogData() {
+                setLoading(true);
+                try {
+                    // Fetch Products
+                    const prodRes = await fetch('/api/products/products/?is_active=true');
+                    if (prodRes.ok) {
+                        const prodData = await prodRes.json();
+                        state.allProducts = prodData.results || prodData;
+                    }
+
+                    // Fetch Services
+                    const servRes = await fetch('/api/services/services/?is_active=true');
+                    if (servRes.ok) {
+                        const servData = await servRes.json();
+                        state.allServices = servData.results || servData;
+                    }
+
+                    // Initialize Dual Range Slider
+                    setupPriceSlider();
+
+                    // Generate Filters and Render
+                    generateFilters();
+                    renderItems();
+                } catch (err) {
+                    console.error("Failed to load catalog data:", err);
+                    empState.innerHTML = "حدث خطأ أثناء الاتصال بخوادم Sivar.";
+                    empState.style.display = 'block';
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+            // --- Price Slider Logic ---
+            function setupPriceSlider() {
+                // Setup Event Listeners
+                rangeMin.addEventListener('input', updateSliderFromRange);
+                rangeMax.addEventListener('input', updateSliderFromRange);
+                minInput.addEventListener('change', updateSliderFromInputs);
+                maxInput.addEventListener('change', updateSliderFromInputs);
+            }
+
+            function calculateSliderGap() {
+                // Dynamically define what 5% is
+                return (parseInt(rangeMax.max) * 0.05);
+            }
+
+            function updateSliderFromRange(e) {
+                let minVal = parseInt(rangeMin.value);
+                let maxVal = parseInt(rangeMax.value);
+                let gap = calculateSliderGap();
+
+                if (maxVal - minVal < gap) {
+                    if (e.target.id === "rangeMin") {
+                        rangeMin.value = maxVal - gap;
+                    } else {
+                        rangeMax.value = minVal + gap;
+                    }
+                } else {
+                    minInput.value = formatNumber(minVal);
+                    maxInput.value = formatNumber(maxVal);
+                    updateTrack(rangeMin.value, rangeMax.value);
+                    applyFilters();
+                }
+            }
+
+            function updateSliderFromInputs() {
+                let minVal = parseInt(minInput.value) || 0;
+                let maxVal = parseInt(maxInput.value) || parseInt(rangeMax.max);
+
+                if (minVal < 0) minVal = 0;
+                if (maxVal > parseInt(rangeMax.max)) maxVal = parseInt(rangeMax.max);
+
+                if (minVal >= maxVal) {
+                    minVal = maxVal - calculateSliderGap();
+                    minInput.value = minVal;
+                }
+
+                rangeMin.value = minVal;
+                rangeMax.value = maxVal;
+                updateTrack(minVal, maxVal);
+                applyFilters();
+            }
+
+            function updateTrack(min, max) {
+                const maxRange = parseInt(rangeMax.max);
+                const percent1 = (min / maxRange) * 100;
+                const percent2 = (max / maxRange) * 100;
+                sliderTrack.style.left = `\${percent1}%`;
+                sliderTrack.style.width = `\${percent2 - percent1}%`;
+                sliderTrack.style.right = `\${100 - percent2}%`; // Support RTL
+            }
+
+            function setSliderLimits(items) {
+                let initialMax = 1000000;
+
+                // Reset ranges permanently
+                rangeMin.max = initialMax;
+                rangeMax.max = initialMax;
+                rangeMin.value = 0;
+                rangeMax.value = initialMax;
+                minInput.value = 0;
+                maxInput.value = initialMax;
+
+                updateTrack(0, initialMax);
+            }
+
+            // --- Dynamic Generators ---
+            function generateFilters() {
+                const rawList = state.currentTab === 'products' ? state.allProducts : state.allServices;
+                const dropdown = document.getElementById('categoryDropdown');
+
+                // Priority list for health/medical categories
+                const priorityNames = [
+                    "المنتجات الصحية والطبية", "السياحة العلاجية", "الخدمات الصحية المنزلية",
+                    "طب الأسنان", "طب العيون والليزر", "العلاج الطبيعي والتأهيل"
+                ];
+
+                // Dynamic Category Extractor with parent/child hierarchy
+                const catsMap = new Map();
+                const childCats = new Map();
+                rawList.forEach(item => {
+                    if (item.category) {
+                        const cid = String(item.category.id || item.category.slug || item.category);
+                        const cname = item.category.name || item.category_name || "عام";
+                        const parentName = item.category.parent_name || null;
+                        if (!catsMap.has(cid)) {
+                            catsMap.set(cid, { name: cname, count: 0, parent: parentName });
+                        }
+                        catsMap.get(cid).count++;
+                    }
+                });
+
+                // Separate parent categories and subcategories
+                let parentCats = [];
+                let subCats = [];
+                catsMap.forEach((meta, id) => {
+                    if (meta.parent) {
+                        subCats.push({ id, ...meta });
+                    } else {
+                        parentCats.push({ id, ...meta });
+                    }
+                });
+
+                // Sort: Priority first, then alphabetical
+                const sortCats = (arr) => arr.sort((a, b) => {
+                    const aPri = priorityNames.indexOf(a.name);
+                    const bPri = priorityNames.indexOf(b.name);
+                    if (aPri !== -1 && bPri !== -1) return aPri - bPri;
+                    if (aPri !== -1) return -1;
+                    if (bPri !== -1) return 1;
+                    return a.name.localeCompare(b.name, 'ar');
+                });
+                sortCats(parentCats);
+                sortCats(subCats);
+
+                // Build Dropdown Options
+                const tabEmoji = state.currentTab === 'products' ? '🛍️' : '💼';
+                const tabLabel = state.currentTab === 'products' ? 'جميع المنتجات' : 'جميع الخدمات';
+                let optionsHtml = `<option value="all">${tabEmoji} ${tabLabel} (${rawList.length})</option>`;
+
+                // If there are parent/child relationships, use optgroups
+                if (subCats.length > 0) {
+                    parentCats.forEach(cat => {
+                        const children = subCats.filter(sc => sc.parent === cat.name);
+                        if (children.length > 0) {
+                            optionsHtml += `<option disabled>──── ${cat.name} ────</option>`;
+                            children.forEach(child => {
+                                optionsHtml += `<option value="${child.id}">  └ ${child.name} (${child.count})</option>`;
+                            });
+                            // Also add the parent itself if it has direct items
+                            if (cat.count > 0) {
+                                optionsHtml += `<option value="${cat.id}">  └ ${cat.name} — عام (${cat.count})</option>`;
+                            }
+                        } else {
+                            optionsHtml += `<option value="${cat.id}">📌 ${cat.name} (${cat.count})</option>`;
+                        }
+                    });
+                    // Add orphan subcategories
+                    const orphans = subCats.filter(sc => !parentCats.find(pc => pc.name === sc.parent));
+                    orphans.forEach(cat => {
+                        optionsHtml += `<option value="${cat.id}">📌 ${cat.name} (${cat.count})</option>`;
+                    });
+                } else {
+                    // Flat list (services)
+                    parentCats.forEach(cat => {
+                        optionsHtml += `<option value="${cat.id}">📌 ${cat.name} (${cat.count})</option>`;
+                    });
+                }
+
+                dropdown.innerHTML = optionsHtml;
+
+                // Hide selection badge
+                document.getElementById('catSelectedBadge').style.display = 'none';
+
+                // Dynamic Rating Counter
+                const rCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+                rawList.forEach(item => {
+                    const r = Math.round(item.avg_rating || 5);
+                    if (rCounts[r] !== undefined) rCounts[r]++;
+                });
+                document.getElementById('count-r5').innerText = rCounts[5];
+                document.getElementById('count-r4').innerText = rCounts[4];
+                document.getElementById('count-r3').innerText = rCounts[3];
+                document.getElementById('count-r2').innerText = rCounts[2];
+                document.getElementById('count-r1').innerText = rCounts[1];
+
+                // Update Slider Limits based on Tab
+                setSliderLimits(rawList);
+            }
+
+            function clearCategorySelection() {
+                document.getElementById('categoryDropdown').value = 'all';
+                document.getElementById('catSelectedBadge').style.display = 'none';
+                applyFilters();
+            }
+
+            // Tab Switching
+            function switchTab(tabType) {
+                state.currentTab = tabType;
+                state.currentPage = 1; // Reset to page 1
+
+                // Update UI
+                document.querySelectorAll('.cat-tab').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.type === tabType) btn.classList.add('active');
+                });
+
+                pageTitle.innerText = tabType === 'products' ? "المنتجات المتوفرة" : "الخدمات الاحترافية";
+
+                // Manage UI specific regeneration (sliders and categories)
+                generateFilters();
+
+                // Clear Search
+                document.getElementById('searchInput').value = "";
+
+                // Render
+                applyFilters();
+            }
+
+            function resetFilters() {
+                state.currentPage = 1;
+                document.getElementById('searchInput').value = "";
+                document.querySelectorAll('.rating-cb').forEach(c => c.checked = false);
+                document.getElementById('categoryDropdown').value = 'all';
+                document.getElementById('catSelectedBadge').style.display = 'none';
+
+                // Reset slider to max
+                const mMax = parseInt(rangeMax.max);
+                rangeMin.value = 0;
+                rangeMax.value = mMax;
+                minInput.value = 0;
+                maxInput.value = mMax;
+                updateTrack(0, mMax);
+
+                applyFilters();
+            }
+
+            function cleanImageUrl(url) {
+                if (!url) return '';
+                // If it's already a full URL (http...), return it. 
+                // Handles cases where it might be encoded inside a /media/ path
+                if (url.includes('http')) {
+                    const match = url.match(/https?:\/\/.*/);
+                    return match ? decodeURIComponent(match[0]) : url;
+                }
+                return url;
+            }
+
+            // Apply Search and Filters
+            function applyFilters() {
+                const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+                // Filter variables
+                const minP = parseFloat(minInput.value) || 0;
+                const maxP = parseFloat(maxInput.value) || Infinity;
+
+                // Dropdown category filter
+                const dropdown = document.getElementById('categoryDropdown');
+                const selectedCat = dropdown.value;
+                const isAllCat = selectedCat === 'all';
+                const badge = document.getElementById('catSelectedBadge');
+
+                if (!isAllCat) {
+                    const selectedText = dropdown.options[dropdown.selectedIndex]?.text || '';
+                    document.getElementById('catBadgeText').innerText = '🏷️ ' + selectedText.replace(/^[📌└\s]+/, '').trim();
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+
+                const checkedRatings = Array.from(document.querySelectorAll('.rating-cb:checked')).map(cb => parseInt(cb.value));
+
+                const rawList = state.currentTab === 'products' ? state.allProducts : state.allServices;
+
+                const filteredList = rawList.filter(item => {
+                    const finalPrice = parseFloat(item.final_price || item.price) || 0;
+                    const rating = Math.round(item.avg_rating || 5);
+
+                    // Search Match
+                    const matchesQuery = item.name.toLowerCase().includes(query) || (item.vendor_name && item.vendor_name.toLowerCase().includes(query));
+
+                    // Price Match
+                    const matchesPrice = finalPrice >= minP && finalPrice <= maxP;
+
+                    // Category Match (Dropdown)
+                    let matchesCat = true;
+                    if (!isAllCat && item.category) {
+                        const cid = String(item.category.id || item.category.slug);
+                        matchesCat = (cid === selectedCat);
+                    }
+
+                    // Rating Match
+                    let matchesRating = true;
+                    if (checkedRatings.length > 0) {
+                        matchesRating = checkedRatings.includes(rating);
+                    }
+
+                    return matchesQuery && matchesPrice && matchesCat && matchesRating;
+                });
+
+                state.filteredTotal = filteredList.length;
+                renderList(filteredList, state.currentTab);
+                renderPagination();
+            }
+
+            // Render HTML Cards
+            function renderList(list, type) {
+                grid.innerHTML = '';
+                if (list.length === 0 && !state.isLoading) {
+                    empState.style.display = 'block';
+                    document.getElementById('paginationContainer').innerHTML = '';
+                    return;
+                }
+                empState.style.display = 'none';
+
+                // SLCING FOR PAGINATION
+                const start = (state.currentPage - 1) * state.pageSize;
+                const end = start + state.pageSize;
+                const pagedList = list.slice(start, end);
+
+                pagedList.forEach(item => {
+                    const finalPrice = item.final_price || item.price;
+                    const mainImg = item.image_main || (type === 'products' ? fallbackProductImg : fallbackServiceImg);
+                    const vendor = item.vendor_name || 'بائع معتمد';
+                    const rating = Math.round(item.avg_rating || 5);
+
+                    let badgeHtml = '';
+                    let oldPriceHtml = '';
+
+                    if (type === 'products') {
+                        if (item.discount_percentage && item.discount_percentage > 0) {
+                            badgeHtml = `<div class="p-badge" style="background:var(--orange)">خصم ${item.discount_percentage}%</div>`;
+                            oldPriceHtml = `<span class="p-old">${formatPrice(item.price)}</span>`;
+                        } else if (item.is_featured) {
+                            badgeHtml = `<div class="p-badge">مميز</div>`;
+                        }
+                    } else if (type === 'services') {
+                        if (item.is_featured) {
+                            badgeHtml = `<div class="p-badge">خدمة مميزة</div>`;
+                        }
+                    }
+
+                    // Create Card Element
+                    const card = document.createElement('div');
+                    card.className = 'p-card';
+                    card.onclick = () => openModal(item, type);
+
+                    let pricingTypeInfo = '';
+                    if (type === 'services' && item.pricing_type === 'HOURLY') {
+                        pricingTypeInfo = '<sub>/ساعة</sub>';
+                    }
+
+                    card.innerHTML = `
+                <div class="p-img">
+                    ${badgeHtml}
+                    <img src="${cleanImageUrl(mainImg)}" alt="${item.name}">
+                </div>
+                <div class="p-body">
+                    <div class="p-store">
+                        <span>${type === 'products' ? '🛍️' : '💼'} ${vendor}</span>
+                        <span class="p-rating">★ ${rating}</span>
+                    </div>
+                    <h3 class="p-title">${item.name}</h3>
+                    ${type === 'services' ? `<p class="p-desc">${item.description ? item.description : 'خدمة احترافية مقدمة بكل جودة وموثوقية عالية من الشريك.'}</p>` : ''}
+                    
+                    <div class="p-footer" style="margin-top: ${type === 'services' ? '0' : '8'}px;">
+                        <div>
+                            ${oldPriceHtml}
+                            <div class="p-price">${formatPrice(finalPrice)} ${pricingTypeInfo}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderPagination() {
+                const container = document.getElementById('paginationContainer');
+                container.innerHTML = '';
+
+                const totalPages = Math.ceil(state.filteredTotal / state.pageSize);
+                if (totalPages <= 1) return;
+
+                // Previous Button
+                const prevBtn = document.createElement('button');
+                prevBtn.className = `page-btn ${state.currentPage === 1 ? 'disabled' : ''}`;
+                prevBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>`;
+                prevBtn.onclick = () => { if (state.currentPage > 1) { state.currentPage--; applyFilters(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+                container.appendChild(prevBtn);
+
+                // Page Numbers with Sliding Window
+                const maxVisible = 5;
+                let startPage = Math.max(1, state.currentPage - Math.floor(maxVisible / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+                if (endPage - startPage + 1 < maxVisible) {
+                    startPage = Math.max(1, endPage - maxVisible + 1);
+                }
+
+                // First Page
+                if (startPage > 1) {
+                    addPageBtn(1);
+                    if (startPage > 2) addEllipsis();
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    addPageBtn(i);
+                }
+
+                // Last Page
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) addEllipsis();
+                    addPageBtn(totalPages);
+                }
+
+                function addPageBtn(i) {
+                    const btn = document.createElement('button');
+                    btn.className = `page-btn ${state.currentPage === i ? 'active' : ''}`;
+                    btn.innerText = i;
+                    btn.onclick = () => {
+                        state.currentPage = i;
+                        applyFilters();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    };
+                    container.appendChild(btn);
+                }
+
+                function addEllipsis() {
+                    const span = document.createElement('span');
+                    span.innerText = '...';
+                    span.style.color = 'var(--dim)';
+                    span.style.padding = '0 10px';
+                    container.appendChild(span);
+                }
+
+                // Next Button
+                const nextBtn = document.createElement('button');
+                nextBtn.className = `page-btn ${state.currentPage === totalPages ? 'disabled' : ''}`;
+                nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>`;
+                nextBtn.onclick = () => { if (state.currentPage < totalPages) { state.currentPage++; applyFilters(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+                container.appendChild(nextBtn);
+            }
+
+            let currentStoreUrl = null;
+
+            function openModal(item, type) {
+                const modal = document.getElementById('productModal');
+                const mainImg = item.image_main || (type === 'products' ? fallbackProductImg : fallbackServiceImg);
+
+                document.getElementById('modalImg').src = mainImg;
+                document.getElementById('m-vendor').innerText = type === 'products' ? '🛍️ ' + (item.vendor_name || 'بائع معتمد') : '💼 ' + (item.vendor_name || 'مؤسسة معتمدة');
+                document.getElementById('m-title').innerText = item.name;
+                document.getElementById('m-rating').innerText = '★ '.repeat(Math.round(item.avg_rating || 5));
+                document.getElementById('m-desc').innerText = item.description || 'لا يوجد وصف متاح.';
+
+                const finalPrice = item.final_price || item.price;
+                document.getElementById('m-price').innerHTML = formatPrice(finalPrice) + (type === 'services' && item.pricing_type === 'HOURLY' ? '<span style="font-size:1rem;color:var(--dim)">/ساعة</span>' : '');
+
+                const oldPriceEl = document.getElementById('m-old-price');
+                if (type === 'products' && item.discount_percentage && item.discount_percentage > 0) {
+                    oldPriceEl.innerHTML = formatPrice(item.price);
+                    oldPriceEl.style.display = 'block';
+                } else {
+                    oldPriceEl.style.display = 'none';
+                }
+
+                currentStoreUrl = item.vendor ? `http://localhost:5174/store/${item.vendor}` : null;
+
+                // Image Gallery
+                const thumbs = document.getElementById('modalThumbs');
+                thumbs.innerHTML = '';
+
+                // Add main image to gallery
+                const mainThumb = document.createElement('img');
+                mainThumb.src = mainImg;
+                mainThumb.className = 'active';
+                mainThumb.onclick = (e) => updateModalImage(mainImg, e.target);
+                thumbs.appendChild(mainThumb);
+
+                // Add extra images if available
+                if (item.images && item.images.length > 0) {
+                    item.images.forEach(imgObj => {
+                        if (imgObj.image_url) {
+                            const thumb = document.createElement('img');
+                            thumb.src = imgObj.image_url;
+                            thumb.onclick = (e) => updateModalImage(imgObj.image_url, e.target);
+                            thumbs.appendChild(thumb);
+                        }
+                    });
+                }
+
+                modal.style.display = 'flex';
+                // Trigger animation
+                setTimeout(() => modal.classList.add('active'), 10);
+            }
+
+            function updateModalImage(src, thumbElement) {
+                document.getElementById('modalImg').src = src;
+                document.querySelectorAll('.modal-thumbs img').forEach(el => el.classList.remove('active'));
+                if (thumbElement) thumbElement.classList.add('active');
+            }
+
+            function closeModal(e) {
+                if (e) e.preventDefault();
+                const modal = document.getElementById('productModal');
+                modal.classList.remove('active');
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+
+            function goToStore() {
+                if (currentStoreUrl) {
+                    window.location.href = currentStoreUrl;
+                } else {
+                    alert('بيانات المتجر غير متوفرة');
+                }
+            }
+
+            function renderItems() {
+                applyFilters();
+            }
+
+            function setLoading(isLoading) {
+                state.isLoading = isLoading;
+                if (isLoading) {
+                    loadState.style.display = 'block';
+                    empState.style.display = 'none';
+                } else {
+                    loadState.style.display = 'none';
+                }
+            }
+
+            // Init
+            document.addEventListener("DOMContentLoaded", fetchCatalogData);
+        </script>
+</body>
+
+</html>

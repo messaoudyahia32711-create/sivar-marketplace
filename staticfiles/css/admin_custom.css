@@ -1,0 +1,1031 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+/* ══════════════════════════════════════
+   §1  متغيرات التصميم
+   ══════════════════════════════════════ */
+:root {
+    --c-primary: #4f46e5;
+    --c-primary-dark: #4338ca;
+    --c-success: #10b981;
+    --c-warning: #f59e0b;
+    --c-danger: #ef4444;
+    --c-info: #3b82f6;
+
+    --bg-body: #f0f4f8;
+    --bg-card: #ffffff;
+    --bg-input: #f8fafc;
+    --bg-hover-row: rgba(79, 70, 229, .04);
+
+    --t-primary: #1e293b;
+    --t-secondary: #64748b;
+    --t-muted: #94a3b8;
+
+    --b-color: #e2e8f0;
+    --b-light: #f1f5f9;
+
+    --sb-bg: #0f172a;
+    --sb-text: #cbd5e1;
+    --sb-hover: rgba(255, 255, 255, .06);
+    --sb-width: 260px;
+
+    --sh-sm: 0 1px 3px rgba(0, 0, 0, .08);
+    --r-sm: 8px;
+    --r-md: 12px;
+
+    --f-main: 'Cairo', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ══════════════════════════════════════
+   §2  الأساسيات
+   ══════════════════════════════════════ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--f-main) !important;
+    background: var(--bg-body);
+    color: var(--t-primary);
+    direction: rtl;
+    text-align: right;
+    line-height: 1.7;
+}
+
+::selection {
+    background: var(--c-primary);
+    color: #fff;
+}
+
+/* ══════════════════════════════════════
+   §3  التخطيط العام
+   ══════════════════════════════════════ */
+.wrapper,
+.content-wrapper {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.content-wrapper {
+    padding: 24px 28px;
+    background: var(--bg-body);
+}
+
+body:not(.sidebar-collapse) .content-wrapper,
+body:not(.sidebar-collapse) .main-header,
+body:not(.sidebar-collapse) .main-footer {
+    margin-right: var(--sb-width);
+    margin-left: 0;
+}
+
+body.sidebar-collapse .content-wrapper,
+body.sidebar-collapse .main-header,
+body.sidebar-collapse .main-footer {
+    margin-right: 4.6rem;
+    margin-left: 0;
+}
+
+.content-header {
+    padding: 12px 0 20px;
+}
+
+.content-header .row {
+    display: block !important;
+}
+
+.content-header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: block !important;
+    float: none !important;
+    margin-bottom: 12px !important;
+}
+
+.breadcrumb {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    background: 0;
+    padding: 0;
+    margin: 0 !important;
+    font-size: .85rem;
+}
+
+.breadcrumb-item a {
+    color: var(--c-primary);
+    text-decoration: none;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    content: "‹";
+    color: var(--t-muted);
+    padding: 0 6px;
+}
+
+/* ══════════════════════════════════════
+   §4  الشريط الجانبي
+   ══════════════════════════════════════ */
+.main-sidebar {
+    background: var(--sb-bg) !important;
+    right: 0;
+    left: auto;
+    width: var(--sb-width);
+    z-index: 1038;
+    border-left: none;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, .15);
+}
+
+.brand-link {
+    padding: 18px 20px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-text {
+    font-weight: 800 !important;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.nav-sidebar>.nav-item>.nav-link {
+    color: var(--sb-text);
+    border-radius: var(--r-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-sidebar>.nav-item>.nav-link.active {
+    background: var(--c-primary);
+    color: #fff !important;
+}
+
+.nav-sidebar>.nav-item>.nav-link:not(.active):hover {
+    background: var(--sb-hover);
+    color: #fff;
+}
+
+.nav-treeview {
+    padding-right: 14px;
+    border-right: 2px solid rgba(255, 255, 255, .08);
+}
+
+.nav-sidebar .nav-link>.right {
+    left: 12px;
+    right: auto;
+}
+
+.user-panel {
+    border-bottom: 1px solid rgba(255, 255, 255, .06) !important;
+    padding: 14px 16px !important;
+}
+
+.user-panel .info a {
+    color: #e2e8f0 !important;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+/* التصغير */
+body.sidebar-collapse .main-sidebar {
+    width: 4.6rem;
+}
+
+body.sidebar-collapse .brand-text,
+body.sidebar-collapse .nav-sidebar .nav-link p,
+body.sidebar-collapse .user-panel .info {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* ══════════════════════════════════════
+   §5  الشريط العلوي
+   ══════════════════════════════════════ */
+.main-header.navbar {
+    background: var(--bg-card) !important;
+    border-bottom: 1px solid var(--b-color);
+    box-shadow: var(--sh-sm);
+    min-height: 56px;
+    z-index: 1037;
+}
+
+.main-header .nav-link {
+    color: var(--t-secondary) !important;
+    padding: 8px 12px;
+    border-radius: var(--r-sm);
+}
+
+.main-header .nav-link:hover {
+    color: var(--c-primary) !important;
+    background: rgba(79, 70, 229, .06);
+}
+
+/* ══════════════════════════════════════
+   §6  الداشبورد
+   ══════════════════════════════════════ */
+/* إخفاء آخر الإجراءات */
+#recent-actions-module,
+.card-recent-actions {
+    display: none !important;
+}
+
+.dashboard .content .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.dashboard .content .row>[class*="col-"] {
+    max-width: 100%;
+    padding: 0;
+}
+
+.dashboard thead {
+    display: none;
+}
+
+/* ══════════════════════════════════════
+   §7  البطاقات
+   ══════════════════════════════════════ */
+.card {
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+    background: var(--bg-card);
+    overflow: hidden;
+}
+
+.card-header {
+    background: #f8fafc;
+    border-bottom: 1px solid var(--b-light);
+    padding: 16px 20px;
+    font-weight: 700;
+}
+
+.card-body {
+    padding: 16px 20px;
+}
+
+/* ══════════════════════════════════════
+   §8  الأزرار
+   ══════════════════════════════════════ */
+td a,
+.card-body a.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 3px;
+    padding: 8px 16px;
+    border-radius: var(--r-sm);
+    font-size: .85rem;
+    font-weight: 600;
+    border: none;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+td a[href*="change"] {
+    background: var(--c-info) !important;
+    color: #fff !important;
+}
+
+td a[href*="add"] {
+    background: var(--c-success) !important;
+    color: #fff !important;
+}
+
+td a[href*="delete"] {
+    background: var(--c-danger) !important;
+    color: #fff !important;
+}
+
+.btn-primary {
+    background: var(--c-primary) !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.submit-row input[type="submit"] {
+    background: var(--c-primary) !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 10px 28px;
+    border-radius: var(--r-sm);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* ══════════════════════════════════════
+   §9  شريط الأدوات
+   ══════════════════════════════════════ */
+#changelist #toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+}
+
+#changelist #toolbar form#changelist-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+#changelist #toolbar #searchbar {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1.5px solid var(--b-color);
+    border-radius: var(--r-sm);
+    background: var(--bg-input);
+    direction: rtl;
+}
+
+#changelist #toolbar #searchbar:focus {
+    border-color: var(--c-primary);
+    outline: none;
+    background: #fff;
+}
+
+#changelist #toolbar form#changelist-search [type="submit"] {
+    padding: 10px 20px;
+    background: var(--c-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ══════════════════════════════════════
+   §10  زر الإضافة (Object Tools)
+   ══════════════════════════════════════ */
+#changelist .object-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px auto;
+    /* افتراضياً يذهب لليمين (LTR logic) */
+    padding: 0;
+    list-style: none;
+    flex-shrink: 0;
+}
+
+#changelist .object-tools a,
+#changelist .object-tools .addlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    background: var(--c-success) !important;
+    color: #fff !important;
+    border: none;
+    border-radius: var(--r-sm);
+    font-weight: 700;
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+#changelist .object-tools a::before {
+    content: "+";
+    font-size: 1.2em;
+    font-weight: 800;
+}
+
+/* ══════════════════════════════════════
+   §11  شريط الإجراءات
+   ══════════════════════════════════════ */
+#changelist form .actions,
+.changelist-form-container .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+}
+
+#changelist form .actions select {
+    flex: 0 1 280px;
+    padding: 9px 14px;
+    border: 1.5px solid var(--b-color);
+    border-radius: var(--r-sm);
+    background: var(--bg-input);
+    direction: rtl;
+}
+
+#changelist form .actions button[type="submit"] {
+    padding: 9px 24px;
+    background: var(--c-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--r-sm);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#changelist form .actions .action-counter {
+    margin-right: auto;
+    color: var(--t-muted);
+    font-size: .82rem;
+}
+
+/* ══════════════════════════════════════
+   §12  الجدول (الحل الجذري)
+   ══════════════════════════════════════ */
+#changelist #result_list,
+.changelist-form-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table,
+#result_list {
+    width: 100%;
+    table-layout: auto;
+    /* يحل مشكلة تناسق الأعمدة */
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+    overflow: hidden;
+}
+
+.table thead th,
+#result_list thead th {
+    background: #f8fafc;
+    border-bottom: 2px solid var(--b-color);
+    padding: 14px 18px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--t-secondary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.table tbody td,
+#result_list tbody td {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--b-light);
+    font-size: .9rem;
+    color: var(--t-primary);
+    vertical-align: middle;
+    text-align: right;
+}
+
+.table tbody tr:hover td,
+#result_list tbody tr:hover td {
+    background: var(--bg-hover-row);
+}
+
+/* ══════════════════════════════════════
+   §13  ذكاء عرض الأعمدة
+   ══════════════════════════════════════ */
+#result_list .field-id,
+#result_list th.column-id {
+    width: 60px;
+    text-align: center !important;
+    color: var(--t-muted);
+}
+
+#result_list .field-created_at,
+#result_list th.column-created_at {
+    width: 150px;
+    white-space: nowrap;
+    color: var(--t-secondary);
+}
+
+#result_list .field-is_active,
+#result_list th.column-is_active {
+    width: 100px;
+    text-align: center !important;
+}
+
+#result_list .field-name,
+#result_list th.column-name {
+    width: auto;
+    min-width: 200px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+#result_list .field-actions,
+#result_list th.column-actions {
+    width: 140px;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+/* روابط الجدول */
+#result_list tbody td a:not(.btn) {
+    color: var(--c-primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ══════════════════════════════════════
+   §14  الترقيم
+   ══════════════════════════════════════ */
+.paginator,
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+}
+
+.paginator a,
+.page-item .page-link {
+    padding: 8px 14px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--b-color);
+    background: #fff;
+    font-weight: 600;
+    color: var(--t-secondary);
+    text-decoration: none;
+}
+
+.paginator .this-page,
+.page-item.active .page-link {
+    background: var(--c-primary);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* ══════════════════════════════════════
+   §15  النماذج
+   ══════════════════════════════════════ */
+.form-control,
+select,
+textarea {
+    border: 1.5px solid var(--b-color) !important;
+    border-radius: var(--r-sm) !important;
+    padding: 10px 14px;
+    background: var(--bg-input);
+    direction: rtl;
+}
+
+.form-control:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--c-primary) !important;
+    outline: none;
+}
+
+label {
+    font-weight: 600;
+    color: var(--t-primary);
+    margin-bottom: 6px;
+    display: block;
+}
+
+fieldset {
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--bg-card);
+}
+
+fieldset legend {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-primary);
+    padding: 0 8px;
+}
+
+/* ══════════════════════════════════════
+   §16  التبويبات والشارات والتنبيهات
+   ══════════════════════════════════════ */
+.nav-tabs {
+    border-bottom: 2px solid var(--b-color);
+    gap: 4px;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--t-secondary);
+    font-weight: 600;
+    padding: 10px 20px;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--c-primary) !important;
+    border-bottom-color: var(--c-primary) !important;
+}
+
+.badge {
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: .78rem;
+}
+
+.bg-primary {
+    background: var(--c-primary) !important;
+}
+
+.bg-success {
+    background: var(--c-success) !important;
+}
+
+.bg-danger {
+    background: var(--c-danger) !important;
+}
+
+.alert {
+    border: none;
+    border-radius: var(--r-md);
+    padding: 14px 20px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, .1);
+    color: var(--c-success);
+    border-right: 4px solid var(--c-success);
+}
+
+.alert-danger {
+    background: rgba(239, 68, 68, .1);
+    color: var(--c-danger);
+    border-right: 4px solid var(--c-danger);
+}
+
+/* ══════════════════════════════════════
+   §17  صفحة الدخول
+   ══════════════════════════════════════ */
+.login-page {
+    background: #1e1b4b;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    width: 420px;
+    max-width: 95vw;
+}
+
+.login-logo a {
+    color: #fff !important;
+    font-weight: 900;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.card-body.login-card-body {
+    border-radius: var(--r-lg) !important;
+    padding: 40px 36px;
+    box-shadow: var(--sh-sm);
+    background: #fff;
+}
+
+.login-card-body .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: var(--r-sm) !important;
+    background: var(--c-primary) !important;
+    border: none !important;
+    margin-top: 8px;
+}
+
+/* ══════════════════════════════════════
+   §18  الفلاتر الجانبية
+   ══════════════════════════════════════ */
+#changelist-filter {
+    background: var(--bg-card);
+    border-radius: var(--r-md);
+    border: 1px solid var(--b-color);
+    padding: 16px;
+}
+
+#changelist-filter h2 {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--t-primary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--b-color);
+}
+
+#changelist-filter li a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--t-secondary);
+    text-decoration: none;
+    font-size: .85rem;
+}
+
+#changelist-filter li a:hover {
+    background: rgba(79, 70, 229, .06);
+    color: var(--c-primary);
+}
+
+#changelist-filter li.selected a {
+    background: var(--c-primary);
+    color: #fff;
+}
+
+/* ══════════════════════════════════════
+   §19  RTL — تصحيحات إضافية (تم التصحيح)
+   ══════════════════════════════════════ */
+[dir="rtl"] #changelist form .actions select {
+    background-position: left 12px center;
+    padding-left: 32px;
+    padding-right: 14px;
+}
+
+/* تصحيح RTL لزر الإضافة (Object Tools): 
+   نستخدم margin-right: auto ليدفع الزر لليسار في RTL */
+[dir="rtl"] #changelist .object-tools,
+body[dir="rtl"] #changelist .object-tools {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}
+
+/* ══════════════════════════════════════
+   §20  استجابة الشاشات
+   ══════════════════════════════════════ */
+@media (max-width: 991.98px) {
+
+    body:not(.sidebar-collapse) .content-wrapper,
+    body:not(.sidebar-collapse) .main-header,
+    body:not(.sidebar-collapse) .main-footer {
+        margin-right: 0;
+    }
+
+    .main-sidebar {
+        transform: translateX(var(--sb-width));
+    }
+
+    .sidebar-open .main-sidebar {
+        transform: translateX(0);
+    }
+
+    #changelist #toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #changelist .object-tools {
+        justify-content: stretch;
+        margin: 0 0 16px 0 !important;
+    }
+
+    #changelist .object-tools a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #changelist form .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #changelist form .actions select {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    #result_list,
+    #result_list thead,
+    #result_list tbody,
+    #result_list th,
+    #result_list td,
+    #result_list tr {
+        display: block;
+        width: 100%;
+    }
+
+    #result_list thead {
+        position: absolute;
+        top: -9999px;
+        right: -9999px;
+    }
+
+    #result_list tbody tr {
+        margin-bottom: 12px;
+        border: 1px solid var(--b-color);
+        border-radius: var(--r-md);
+        overflow: hidden;
+    }
+
+    #result_list tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--b-light);
+        text-align: left;
+        min-height: 44px;
+    }
+
+    #result_list tbody td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        font-size: .8rem;
+        color: var(--t-secondary);
+        margin-left: 12px;
+    }
+
+    #result_list tbody td:last-child {
+        border-bottom: none;
+    }
+
+    #result_list th.action-checkbox-column,
+    #result_list td .action-checkbox {
+        display: none;
+    }
+}
+
+/* ══════════════════════════════════════
+   §21  الطباعة
+   ══════════════════════════════════════ */
+@media print {
+
+    .main-sidebar,
+    .main-header,
+    .main-footer,
+    .breadcrumb,
+    .btn,
+    .actions,
+    #changelist-filter,
+    #changelist #toolbar,
+    #changelist .object-tools {
+        display: none !important;
+    }
+
+    .content-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+    }
+
+    .table,
+    #result_list {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    .table thead th,
+    #result_list thead th {
+        background: #f5f5f5 !important;
+    }
+}
+
+/* ══════════════════════════════════════
+   §22  Inline Models (نماذج مضمنة)
+   ══════════════════════════════════════ */
+.inline-group {
+    margin-top: 20px;
+}
+
+.inline-group .inline-related {
+    border: 1px solid var(--b-color);
+    border-radius: var(--r-md);
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.inline-group .inline-related h3 {
+    background: var(--bg-body);
+    padding: 10px 16px;
+    font-size: .9rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--b-color);
+    margin: 0;
+}
+
+.inline-group .tabular td,
+.inline-group .tabular th {
+    padding: 10px 14px;
+}
+
+/* ══════════════════════════════════════
+   §23  بطاقات إحصائية (Stat Cards)
+   ══════════════════════════════════════ */
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-radius: var(--r-md);
+    background: var(--bg-card);
+    border: 1px solid var(--b-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+}
+
+.stat-card.stat-primary::after {
+    background: var(--c-primary);
+}
+
+.stat-card.stat-success::after {
+    background: var(--c-success);
+}
+
+.stat-card.stat-warning::after {
+    background: var(--c-warning);
+}
+
+.stat-card.stat-danger::after {
+    background: var(--c-danger);
+}
+
+.stat-card:hover {
+    box-shadow: var(--sh-md);
+}
+
+.stat-card .stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.stat-card.stat-primary .stat-icon {
+    background: var(--c-primary);
+}
+
+.stat-card.stat-success .stat-icon {
+    background: var(--c-success);
+}
+
+.stat-card.stat-warning .stat-icon {
+    background: var(--c-warning);
+}
+
+.stat-card.stat-danger .stat-icon {
+    background: var(--c-danger);
+}
+
+.stat-card .stat-info .stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--t-primary);
+    line-height: 1.2;
+}
+
+.stat-card .stat-info .stat-label {
+    font-size: .82rem;
+    color: var(--t-muted);
+    font-weight: 500;
+}
+
+/* ══════════════════════════════════════
+   §24  التذييل (Footer)
+   ══════════════════════════════════════ */
+.main-footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--b-color);
+    color: var(--t-muted);
+    font-size: .82rem;
+    padding: 12px 24px;
+}

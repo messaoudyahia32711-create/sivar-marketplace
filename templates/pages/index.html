@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sivar - السوق الإلكتروني الجزائري</title>
+    <meta name="description" content="أول سوق إلكتروني جزائري متكامل يجمع بين المتاجر والخدمات والمؤسسات في منصة واحدة آمنة وموثوقة">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+    :root{--bg:#0F0F0F;--card:#1A1A1A;--card2:#222;--gold:#D4AF37;--gold2:#F7E7CE;--orange:#D2691E;--orange2:#E07C24;--white:#FFF;--gray:#B0B0B0;--dim:#666}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    .page-bg{position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 20% 0%,rgba(212,175,55,.07) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(210,105,30,.05) 0%,transparent 50%)}
+
+    /* Navbar */
+    .nav{position:fixed;top:0;left:0;right:0;height:68px;background:rgba(15,15,15,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(212,175,55,.08);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .3s}
+    .nav.scrolled{background:rgba(15,15,15,.96);box-shadow:0 4px 30px rgba(0,0,0,.4)}
+    .nav-logo{display:flex;align-items:center;gap:12px}
+    .nav-logo-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--orange));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:var(--bg);box-shadow:0 4px 15px rgba(212,175,55,.25)}
+    .nav-logo-text{font-size:1.6rem;font-weight:900;background:linear-gradient(to left,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+    .nav-links{display:flex;gap:6px;list-style:none}
+    .nav-links a{color:var(--gray);font-weight:700;font-size:.95rem;padding:10px 18px;border-radius:12px;transition:.3s}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(212,175,55,.08)}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .nav-btn{padding:10px 24px;background:linear-gradient(135deg,var(--gold),#c9a22e);color:var(--bg);border:none;border-radius:12px;font-family:'Tajawal',sans-serif;font-weight:900;font-size:.9rem;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(212,175,55,.2)}
+    .nav-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(212,175,55,.35)}
+    .auth-box {display: flex; align-items: center; background: linear-gradient(135deg, var(--gold), #c9a22e); border-radius: 50px; box-shadow: 0 4px 20px rgba(212,175,55,.3); transition: .3s; position: relative; overflow: hidden;}
+    .auth-box::before {content: ''; position: absolute; top:0; left:-100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); transform: skewX(-20deg); animation: shine-box 3s infinite;}
+    @keyframes shine-box { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+    .auth-box:hover {transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,175,55,.5);}
+    .auth-btn {padding: 10px 22px; font-family: 'Tajawal', sans-serif; font-weight: 900; font-size: .95rem; color: #0F0F0F; outline: none; transition: .3s; position: relative; z-index: 2; display: flex; align-items: center; gap: 6px;}
+    .auth-btn:hover {background: rgba(255,255,255,0.25);}
+    .auth-divider {width: 1px; height: 24px; background: rgba(0,0,0,0.2); z-index: 2;}
+
+    /* Hero */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);opacity:.12;pointer-events:none}
+    .hero-glow-1{top:-200px;right:-100px;background:var(--gold)}
+    .hero-glow-2{bottom:-200px;left:-100px;background:var(--orange)}
+    .hero-content{max-width:850px;text-align:center;position:relative;z-index:2}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:50px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.2);color:var(--gold);font-size:.85rem;font-weight:700;margin-bottom:30px;animation:fadeInDown .8s ease}
+    .hero-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse-dot 2s infinite}
+    @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    .hero-title{font-size:3.5rem;font-weight:900;line-height:1.2;margin-bottom:20px;animation:fadeInUp .8s ease .1s both}
+    .gold{background:linear-gradient(to left,var(--gold),var(--gold2),var(--gold));background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer-text 4s linear infinite}
+    @keyframes shimmer-text{0%{background-position:200% center}100%{background-position:-200% center}}
+    .hero-sub{font-size:1.15rem;color:var(--gray);line-height:1.8;margin-bottom:45px;max-width:650px;margin-left:auto;margin-right:auto;animation:fadeInUp .8s ease .2s both}
+    .hero-search{display:flex;align-items:center;max-width:620px;margin:0 auto 35px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:18px;padding:6px;box-shadow:0 10px 40px rgba(0,0,0,.4);animation:fadeInUp .8s ease .3s both;transition:.3s}
+    .hero-search:focus-within{border-color:rgba(212,175,55,.4);box-shadow:0 10px 40px rgba(0,0,0,.4),0 0 0 4px rgba(212,175,55,.06)}
+    .hero-search input{flex:1;background:none;border:none;outline:none;padding:14px 20px;font-family:'Tajawal',sans-serif;font-size:1.05rem;color:var(--white)}
+    .hero-search input::placeholder{color:var(--dim)}
+    .search-btn{padding:14px 30px;background:linear-gradient(135deg,var(--gold),#c9a22e);color:var(--bg);border:none;border-radius:14px;font-family:'Tajawal',sans-serif;font-weight:900;font-size:1rem;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px;white-space:nowrap}
+    .search-btn:hover{box-shadow:0 6px 20px rgba(212,175,55,.35);transform:translateY(-1px)}
+    .hero-stats{display:flex;justify-content:center;gap:50px;animation:fadeInUp .8s ease .4s both}
+    .stat{text-align:center}
+    .stat-num{font-size:1.8rem;font-weight:900;color:var(--gold)}
+    .stat-label{font-size:.85rem;color:var(--dim);margin-top:2px}
+    .stat-div{width:1px;background:rgba(255,255,255,.08);align-self:stretch}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Section Headers */
+    .section{padding:60px 40px;max-width:1280px;margin:0 auto}
+    .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:35px}
+    .sec-title-g{display:flex;align-items:center;gap:14px}
+    .sec-icon{width:44px;height:44px;border-radius:12px;background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.15);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+    .sec-icon svg{width:22px;height:22px}
+    .sec-title{font-size:1.6rem;font-weight:900}
+    .sec-link{color:var(--gold);font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:6px;transition:gap .3s}
+    .sec-link:hover{gap:10px}
+    .sec-link svg{width:16px;height:16px}
+
+    /* Category Tabs */
+    .cat-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:30px}
+    .cat-tab{padding:10px 28px;border:1px solid rgba(255,255,255,.06);background:var(--card);border-radius:50px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:.95rem;color:var(--gray);cursor:pointer;transition:.3s}
+    .cat-tab.active{background:linear-gradient(135deg,var(--gold),#c9a22e);color:var(--bg);border-color:transparent;box-shadow:0 8px 20px rgba(212,175,55,.25)}
+    .cat-tab:hover:not(.active){border-color:rgba(212,175,55,.2);color:var(--gold)}
+
+    /* Category Grid */
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:18px}
+    .cat-card{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:18px;padding:26px 14px;text-align:center;cursor:pointer;transition:.4s;position:relative;overflow:hidden}
+    .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to left,var(--gold),var(--orange));transform:scaleX(0);transition:.4s}
+    .cat-card:hover::before{transform:scaleX(1)}
+    .cat-card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.15);box-shadow:0 15px 40px rgba(0,0,0,.4)}
+    .cat-emoji{font-size:2rem;margin-bottom:10px;display:block;transition:.4s}
+    .cat-card:hover .cat-emoji{transform:scale(1.2) rotate(-5deg)}
+    .cat-name{font-size:.92rem;font-weight:700;margin-bottom:4px}
+    .cat-count{font-size:.76rem;color:var(--dim)}
+
+    /* Store Cards */
+    .stores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+    .store-card{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:20px;overflow:hidden;cursor:pointer;transition:.4s}
+    .store-card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.15);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+    .store-cover{height:130px;position:relative;overflow:hidden}
+    .store-cover img{width:100%;height:100%;object-fit:cover;transition:.5s;filter:brightness(.7)}
+    .store-card:hover .store-cover img{transform:scale(1.08);filter:brightness(.8)}
+    .store-cover::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(to top,var(--card),transparent)}
+    .store-badge{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);color:var(--gold);padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;border:1px solid rgba(212,175,55,.3);display:flex;align-items:center;gap:5px}
+    .store-body{padding:0 20px 20px;display:flex;align-items:center;gap:14px;margin-top:-22px;position:relative;z-index:2}
+    .store-logo{width:52px;height:52px;border-radius:14px;border:3px solid var(--card);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:var(--gold);overflow:hidden}
+    .store-logo img{width:100%;height:100%;object-fit:cover}
+    .store-info{flex:1;min-width:0}
+    .store-name{font-size:1rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .store-meta{font-size:.8rem;color:var(--dim);display:flex;align-items:center;gap:10px;margin-top:2px}
+    .store-rating{color:var(--gold);font-weight:700}
+
+    /* Product Scroll */
+    .scroll-wrap{position:relative}
+    .scroll-row{display:flex;gap:24px;overflow-x:auto;padding-bottom:15px;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none}
+    .scroll-row::-webkit-scrollbar{display:none}
+    .scroll-btn{position:absolute;top:50%;transform:translateY(-70%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(212,175,55,.2);background:rgba(15,15,15,.9);backdrop-filter:blur(8px);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:.3s}
+    .scroll-btn:hover{background:var(--gold);color:var(--bg);box-shadow:0 4px 20px rgba(212,175,55,.3)}
+    .scroll-btn svg{width:18px;height:18px}
+    .scroll-btn.prev{right:-22px}.scroll-btn.next{left:-22px}
+
+    /* Product Card */
+    .p-card{min-width:260px;max-width:260px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:18px;overflow:hidden;cursor:pointer;transition:.4s;flex-shrink:0}
+    .p-card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.15);box-shadow:0 15px 40px rgba(0,0,0,.4)}
+    .p-img{width:100%;height:200px;position:relative;overflow:hidden}
+    .p-img img{width:100%;height:100%;object-fit:cover;transition:.5s}
+    .p-card:hover .p-img img{transform:scale(1.08)}
+    .p-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:var(--gold);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;border:1px solid rgba(212,175,55,.4);backdrop-filter:blur(5px)}
+    .p-body{padding:16px}
+    .p-store{font-size:.75rem;color:var(--dim);margin-bottom:6px}
+    .p-title{font-size:1rem;font-weight:700;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .p-footer{display:flex;align-items:center;justify-content:space-between}
+    .p-price{font-size:1.15rem;font-weight:900;color:var(--orange)}
+    .p-old{font-size:.8rem;color:var(--dim);text-decoration:line-through;margin-right:6px}
+    .p-add{width:36px;height:36px;border-radius:10px;border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.06);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s}
+    .p-add:hover{background:var(--gold);color:var(--bg);box-shadow:0 4px 15px rgba(212,175,55,.25)}
+
+    /* Offers */
+    .offers-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+    .offer-card{border-radius:24px;overflow:hidden;position:relative;min-height:280px;cursor:pointer;transition:.4s}
+    .offer-card:hover{transform:translateY(-6px)}
+    .offer-bg{position:absolute;inset:0;object-fit:cover;filter:brightness(.35);transition:.4s}
+    .offer-card:hover .offer-bg{filter:brightness(.45);transform:scale(1.05)}
+    .offer-content{position:relative;z-index:2;padding:35px;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+    .offer-label{display:inline-flex;align-self:flex-start;padding:5px 14px;border-radius:8px;font-size:.78rem;font-weight:700;margin-bottom:14px}
+    .offer-label-gold{background:rgba(212,175,55,.15);color:var(--gold);border:1px solid rgba(212,175,55,.3)}
+    .offer-label-orange{background:rgba(210,105,30,.15);color:var(--orange2);border:1px solid rgba(210,105,30,.3)}
+    .offer-title{font-size:1.5rem;font-weight:900;margin-bottom:6px}
+    .offer-desc{font-size:.9rem;color:var(--gray);margin-bottom:18px}
+    .offer-btn{align-self:flex-start;padding:10px 24px;border-radius:12px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:.3s;border:none;background:var(--gold);color:var(--bg)}
+    .offer-btn:hover{box-shadow:0 6px 20px rgba(212,175,55,.3);transform:translateY(-2px)}
+
+    /* Why Sivar */
+    .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+    .why-card{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:32px 24px;text-align:center;transition:.4s;position:relative;overflow:hidden}
+    .why-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to left,var(--gold),var(--orange));opacity:0;transition:.4s}
+    .why-card:hover::after{opacity:1}
+    .why-card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.12);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+    .why-icon{width:64px;height:64px;margin:0 auto 18px;border-radius:18px;background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.1);display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:.4s}
+    .why-card:hover .why-icon{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.25);transform:scale(1.08)}
+    .why-title{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+    .why-desc{font-size:.85rem;color:var(--gray);line-height:1.7}
+
+    /* Footer */
+    .footer{border-top:1px solid rgba(255,255,255,.05);padding:60px 40px 30px;margin-top:40px}
+    .footer-inner{max-width:1280px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:50px;margin-bottom:50px}
+    .footer-desc{font-size:.9rem;color:var(--gray);line-height:1.8;margin-top:14px;max-width:300px}
+    .footer-col-title{font-size:1rem;font-weight:900;margin-bottom:18px}
+    .footer-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .footer-links a{color:var(--gray);font-size:.9rem;transition:.3s}
+    .footer-links a:hover{color:var(--gold)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.05);padding-top:24px;display:flex;align-items:center;justify-content:space-between}
+    .footer-copy{font-size:.82rem;color:var(--dim)}
+    .footer-pays{display:flex;gap:12px}
+    .footer-pay{width:60px;height:28px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--dim)}
+
+    /* Skeleton */
+    .skel{background:linear-gradient(90deg,#1e1e1e 25%,#2a2a2a 50%,#1e1e1e 75%);background-size:200% 100%;animation:shimmer 1.5s infinite linear;border-radius:12px}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* Responsive */
+    @media(max-width:1024px){.why-grid{grid-template-columns:repeat(2,1fr)}.offers-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr;gap:35px}}
+    @media(max-width:768px){.nav{padding:0 20px}.nav-links{display:none}.hero{padding:100px 20px 60px}.hero-title{font-size:2.2rem}.hero-sub{font-size:1rem}.hero-stats{gap:25px}.stat-num{font-size:1.4rem}.hero-search{flex-direction:column;padding:8px}.hero-search input{text-align:center}.search-btn{width:100%;justify-content:center}.section{padding:40px 20px}.cat-grid{grid-template-columns:repeat(3,1fr);gap:12px}.stores-grid{grid-template-columns:1fr}.scroll-btn{display:none}.why-grid{grid-template-columns:1fr 1fr;gap:14px}.footer-grid{grid-template-columns:1fr;gap:30px}.footer-bottom{flex-direction:column;gap:16px;text-align:center}.sec-head{flex-direction:column;gap:12px;align-items:flex-start}}
+    @media(max-width:480px){.cat-grid{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:1fr}.hero-stats{flex-direction:column;gap:15px}.stat-div{width:40px;height:1px;align-self:center}}
+    </style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<!-- Navbar -->
+<nav class="nav" id="navbar">
+    <a href="/" class="nav-logo"><div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span></a>
+    <ul class="nav-links">
+        <li><a href="/" class="active">الرئيسية</a></li>
+        <li><a href="#categories">التصنيفات</a></li>
+        <li><a href="#stores">المتاجر</a></li>
+        <li><a href="#offers">العروض</a></li>
+    </ul>
+    <div class="nav-actions">
+        <div class="auth-box">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard-redirect' %}" class="auth-btn">لوحة التحكم</a>
+                <div class="auth-divider"></div>
+                <a href="{% url 'users:logout' %}" class="auth-btn" style="color:var(--orange)">خروج</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="auth-btn">دخول</a>
+                <div class="auth-divider"></div>
+                <a href="{% url 'register' %}" class="auth-btn">تسجيل جديد</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-content">
+        <div class="hero-badge"><span class="hero-badge-dot"></span>أول سوق إلكتروني جزائري متكامل</div>
+        <h1 class="hero-title">تسوّق من <span class="gold">ألف متجر</span><br>في مكان واحد</h1>
+        <p class="hero-sub">اكتشف آلاف المنتجات والخدمات من أفضل المتاجر الجزائرية المعتمدة، مع ضمان الجودة والتوصيل السريع لكل الولايات</p>
+        
+        <div style="margin-bottom: 45px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <button onclick="window.location.href='{% url 'catalog' %}'" class="nav-btn" style="padding: 14px 35px; font-size: 1.1rem; box-shadow: 0 8px 25px rgba(212,175,55,.25);">
+                📦 استكشف السوق
+            </button>
+        </div>
+
+        <div class="hero-search">
+            <input type="text" placeholder="ابحث عن منتجات، متاجر، خدمات..." id="searchInput">
+            <button class="search-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>بحث</button>
+        </div>
+        <div class="hero-stats" id="heroStats">
+            <div class="stat"><div class="stat-num" id="statStores">--</div><div class="stat-label">متجر معتمد</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-num" id="statProducts">--</div><div class="stat-label">منتج متوفر</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-num" id="statServices">--</div><div class="stat-label">خدمة متاحة</div></div>
+            <div class="stat-div"></div>
+            <div class="stat"><div class="stat-num" id="statWilayas">--</div><div class="stat-label">ولاية مغطاة</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="section" id="categories">
+    <div class="sec-head">
+        <div class="sec-title-g">
+            <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+            <h2 class="sec-title">تصفح التصنيفات</h2>
+        </div>
+    </div>
+    <div class="cat-tabs">
+        <button class="cat-tab active" onclick="showCatTab('products',this)">📦 تصنيفات المنتجات</button>
+        <button class="cat-tab" onclick="showCatTab('services',this)">🛠️ تصنيفات الخدمات</button>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+</section>
+
+<!-- Featured Stores -->
+<section class="section" id="stores">
+    <div class="sec-head">
+        <div class="sec-title-g">
+            <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <h2 class="sec-title">متاجر مميزة</h2>
+        </div>
+    </div>
+    <div class="stores-grid" id="storesGrid"></div>
+</section>
+
+<!-- Featured Institutions -->
+<section class="section" id="institutions">
+    <div class="sec-head">
+        <div class="sec-title-g">
+            <div class="sec-icon" style="background:rgba(210,105,30,.08);border-color:rgba(210,105,30,.15);color:var(--orange)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></div>
+            <h2 class="sec-title">مؤسسات مميزة</h2>
+        </div>
+    </div>
+    <div class="stores-grid" id="institutionsGrid"></div>
+</section>
+
+<!-- Featured Products -->
+<section class="section">
+    <div class="sec-head">
+        <div class="sec-title-g">
+            <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <h2 class="sec-title">أحدث المنتجات</h2>
+        </div>
+    </div>
+    <div class="scroll-wrap">
+        <button class="scroll-btn prev" onclick="scrollRow('latestScroll',-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div class="scroll-row" id="latestScroll"></div>
+        <button class="scroll-btn next" onclick="scrollRow('latestScroll',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg></button>
+    </div>
+</section>
+
+<!-- Special Offers -->
+<section class="section" id="offers">
+    <div class="sec-head">
+        <div class="sec-title-g">
+            <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <h2 class="sec-title">عروض وخصومات</h2>
+        </div>
+    </div>
+    <div class="scroll-wrap">
+        <button class="scroll-btn prev" onclick="scrollRow('dealsScroll',-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div class="scroll-row" id="dealsScroll"></div>
+        <button class="scroll-btn next" onclick="scrollRow('dealsScroll',1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg></button>
+    </div>
+</section>
+
+<!-- Why Sivar -->
+<section class="section">
+    <div style="text-align:center;margin-bottom:55px">
+        <h2 style="font-size:2rem;font-weight:900;margin-bottom:10px">لماذا <span class="gold">Sivar</span>؟</h2>
+        <p style="font-size:1.05rem;color:var(--gray)">نوفر لك تجربة تسوق إلكترونية آمنة وموثوقة بمعايير عالمية</p>
+    </div>
+    <div class="why-grid">
+        <div class="why-card"><div class="why-icon">🛡️</div><h3 class="why-title">دفع آمن 100%</h3><p class="why-desc">نظام دفع مشفّر مع ضمان استرداد المبلغ في حال عدم الاستلام</p></div>
+        <div class="why-card"><div class="why-icon">🚚</div><h3 class="why-title">توصيل سريع</h3><p class="why-desc">شبكة توصيل تغطي كل الولايات الجزائرية مع تتبع مباشر</p></div>
+        <div class="why-card"><div class="why-icon">✅</div><h3 class="why-title">متاجر معتمدة</h3><p class="why-desc">جميع المتاجر خاضعة لعمليات تحقق دقيقة لضمان الجودة</p></div>
+        <div class="why-card"><div class="why-icon">💬</div><h3 class="why-title">دعم متواصل</h3><p class="why-desc">فريق دعم متاح على مدار الساعة لمساعدتك في أي استفسار</p></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <a href="/" class="nav-logo"><div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span></a>
+                <p class="footer-desc">أول سوق إلكتروني جزائري متكامل يجمع بين المتاجر، المؤسسات، الخدمات، وحاضنات الأعمال في منصة واحدة آمنة وموثوقة.</p>
+            </div>
+            <div><h3 class="footer-col-title">روابط سريعة</h3><ul class="footer-links"><li><a href="/">الرئيسية</a></li><li><a href="#categories">التصنيفات</a></li><li><a href="#stores">المتاجر والمؤسسات</a></li><li><a href="#offers">العروض</a></li></ul></div>
+            <div><h3 class="footer-col-title">انضم إلينا</h3><ul class="footer-links"><li><a href="/vendor/login/">افتح متجرك</a></li><li><a href="/vendor/login/">سجل كمؤسسة</a></li><li><a href="/vendor/login/">انضم كحاضنة أعمال</a></li></ul></div>
+            <div><h3 class="footer-col-title">المساعدة</h3><ul class="footer-links"><li><a href="#">مركز المساعدة</a></li><li><a href="#">سياسة الإرجاع</a></li><li><a href="#">الشروط والأحكام</a></li><li><a href="#">اتصل بنا</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">جميع الحقوق محفوظة &copy; 2025 <span style="color:var(--gold);font-weight:700">Sivar</span></span>
+            <div class="footer-pays"><div class="footer-pay">CCP</div><div class="footer-pay">CIB</div><div class="footer-pay">DAHABIA</div><div class="footer-pay">EDAHABIA</div></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+var API = '/api/vendors/api/public/homepage/';
+var DATA = null;
+var PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMUExQTFBIi8+PC9zdmc+';
+var CAT_EMOJIS_P = {'الإلكترونيات':'💻','الهواتف والأجهزة اللوحية':'📱','الحواسيب والإكسسوارات':'🖥️','الأزياء والملابس':'👔','الأحذية والحقائب':'👟','المجوهرات والإكسسوارات':'💍','المنزل والمطبخ':'🏠','الأثاث والديكور':'🛋️','الأجهزة الكهرومنزلية':'⚡','السيارات وقطع الغيار':'🚗','الرياضة واللياقة':'⚽','الكتب والقرطاسية':'📚','الألعاب والترفيه':'🎮','المواد الغذائية':'🍯','العطور ومستحضرات التجميل':'🌸','مستلزمات الأطفال':'👶','الأجهزة الطبية والعلاجية':'🏥','المكملات الغذائية والفيتامينات':'💊','منتجات العناية الصحية':'❤️‍🩹','الأعشاب والطب البديل':'🌿','مستلزمات طبية':'🩺','أجهزة قياس وتشخيص':'📊','منتجات العلاج الطبيعي':'🧘','منتجات العناية بالبشرة الطبية':'🧴','معدات إعادة التأهيل':'🦽','منتجات طب الأسنان':'🦷'};
+var CAT_EMOJIS_S = {'صيانة وتصليح الأجهزة':'🔧','تنظيف وصيانة المنازل':'🧹','نقل وتوصيل':'🚚','تعليم ودروس خصوصية':'📝','تصميم وبرمجة':'💻','تصوير وإنتاج فيديو':'📷','استشارات قانونية':'⚖️','تسويق رقمي':'📣','حلاقة وتجميل':'💇','بناء وأشغال عامة':'🏗️','كهرباء وسباكة':'🔌','تكييف وتبريد':'❄️','استشارات طبية عن بُعد':'👨‍⚕️','العلاج الطبيعي وإعادة التأهيل':'🧘','الرعاية الصحية المنزلية':'🏠','التمريض المنزلي':'💉','العلاج بالحجامة':'🩸','الطب البديل والأعشاب':'🌿','التغذية العلاجية':'🥗','العلاج النفسي والإرشاد':'🧠','السياحة العلاجية':'✈️','حجز مواعيد طبية':'📅','تحاليل وفحوصات منزلية':'🧪','العلاج بالمياه المعدنية (حمّامات)':'♨️','خدمات طب الأسنان':'🦷','العناية بكبار السن':'👴','خدمات الإسعاف والطوارئ':'🚑'};
+
+function fmt(v){return new Intl.NumberFormat('ar-DZ').format(Number(v))+' دج'}
+function scrollRow(id,dir){document.getElementById(id).scrollBy({left:dir*300,behavior:'smooth'})}
+
+function showCatTab(type,btn){
+    document.querySelectorAll('.cat-tab').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+    if(!DATA) return;
+    var grid=document.getElementById('catGrid');
+    var cats = type==='products' ? DATA.product_categories : DATA.service_categories;
+    var emojis = type==='products' ? CAT_EMOJIS_P : CAT_EMOJIS_S;
+    var unit = type==='products' ? 'منتج' : 'خدمة';
+    var countKey = type==='products' ? 'product_count' : 'service_count';
+    var html='';
+    cats.forEach(function(c){
+        var emoji = emojis[c.name] || (type==='products'?'📦':'🛠️');
+        html+='<div class="cat-card"><span class="cat-emoji">'+emoji+'</span><div class="cat-name">'+c.name+'</div><div class="cat-count">'+c[countKey]+' '+unit+'</div></div>';
+    });
+    grid.innerHTML = html || '<p style="grid-column:1/-1;text-align:center;color:var(--dim);padding:40px">لا توجد تصنيفات حالياً</p>';
+}
+
+function buildProductCard(p){
+    var img = p.image_main || PLACEHOLDER;
+    var badge = p.discount_price?'خصم':p.is_featured?'مميز':'';
+    var badgeH = badge?'<span class="p-badge">'+badge+'</span>':'';
+    var oldH = p.discount_price?'<span class="p-old">'+fmt(p.price)+'</span>':'';
+    var price = p.discount_price || p.price;
+    var storeName = p.vendor_name || '';
+    return '<div class="p-card"><div class="p-img"><img src="'+img+'" alt="'+p.name+'" onerror="this.src=\''+PLACEHOLDER+'\'">'+badgeH+'</div><div class="p-body"><div class="p-store">'+storeName+'</div><div class="p-title">'+p.name+'</div><div class="p-footer"><div>'+oldH+'<span class="p-price">'+fmt(price)+'</span></div><button class="p-add" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div></div></div>';
+}
+
+function buildStoreCard(s, type){
+    var banner = s.banner || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80';
+    var verified = s.is_verified?'<span class="store-badge"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="3"/></svg> معتمد</span>':'';
+    var logo = s.logo?'<img src="'+s.logo+'" alt="">':s.name.charAt(0);
+    var ratingH = s.avg_rating?'<span class="store-rating">⭐ '+s.avg_rating+'</span>':'';
+    var countLabel = type==='institution'?(s.services_count||0)+' خدمة':(s.products_count||0)+' منتج';
+    var link = type==='institution'?'/institution-dashboard/#/store/'+s.username:'/vendor-dashboard/#/store/'+s.username;
+    return '<a href="'+link+'" class="store-card"><div class="store-cover"><img src="'+banner+'" alt="'+s.name+'" onerror="this.src=\''+PLACEHOLDER+'\'">'+verified+'</div><div class="store-body"><div class="store-logo">'+logo+'</div><div class="store-info"><div class="store-name">'+s.name+'</div><div class="store-meta">'+ratingH+'<span>'+countLabel+'</span>'+(s.wilaya_name?'<span>📍 '+s.wilaya_name+'</span>':'')+'</div></div></div></a>';
+}
+
+function render(){
+    if(!DATA) return;
+    // Stats
+    document.getElementById('statStores').textContent = '+'+(DATA.stats.total_stores+DATA.stats.total_institutions);
+    document.getElementById('statProducts').textContent = '+'+DATA.stats.total_products;
+    document.getElementById('statServices').textContent = '+'+DATA.stats.total_services;
+    document.getElementById('statWilayas').textContent = DATA.stats.total_wilayas;
+
+    // Categories (products tab default)
+    showCatTab('products', document.querySelector('.cat-tab.active'));
+
+    // Stores
+    var sg = document.getElementById('storesGrid');
+    if(DATA.featured_stores.length){
+        sg.innerHTML = DATA.featured_stores.map(function(s){return buildStoreCard(s,'store')}).join('');
+    } else { sg.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--dim);padding:60px">لا توجد متاجر مسجلة بعد — كن أول من يفتح متجره!</p>'; }
+
+    // Institutions
+    var ig = document.getElementById('institutionsGrid');
+    if(DATA.featured_institutions.length){
+        ig.innerHTML = DATA.featured_institutions.map(function(s){return buildStoreCard(s,'institution')}).join('');
+    } else { ig.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--dim);padding:60px">لا توجد مؤسسات مسجلة بعد</p>'; }
+
+    // Latest Products
+    var ls = document.getElementById('latestScroll');
+    if(DATA.latest_products.length){
+        ls.innerHTML = DATA.latest_products.map(buildProductCard).join('');
+    } else { ls.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد منتجات حالياً</p>'; }
+
+    // Deals
+    var ds = document.getElementById('dealsScroll');
+    if(DATA.discounted_products.length){
+        ds.innerHTML = DATA.discounted_products.map(buildProductCard).join('');
+    } else { ds.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد عروض حالياً — ترقبوا العروض القادمة!</p>'; }
+}
+
+// Fetch data
+fetch(API).then(function(r){return r.json()}).then(function(d){DATA=d;render()}).catch(function(e){console.error('API Error:',e)});
+
+// Navbar scroll
+window.addEventListener('scroll',function(){
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!-- templates/admin/includes/stats_cards.html -->
+
+<div class="row">
+
+    <!-- بطاقة المستخدمون -->
+    <div class="col-md-3">
+        <div class="stat-card stat-primary">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">{{ users_count }}</div>
+                <div class="stat-label">المستخدمون</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة المنتجات -->
+    <div class="col-md-3">
+        <div class="stat-card stat-success">
+            <div class="stat-icon">
+                <i class="fas fa-box-open"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">{{ products_count }}</div>
+                <div class="stat-label">المنتجات</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة الخدمات -->
+    <div class="col-md-3">
+        <div class="stat-card stat-warning">
+            <div class="stat-icon">
+                <i class="fas fa-concierge-bell"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">{{ services_count }}</div>
+                <div class="stat-label">الخدمات</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- بطاقة السلات -->
+    <div class="col-md-3">
+        <div class="stat-card stat-danger">
+            <div class="stat-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="stat-info">
+                <div class="stat-value">{{ carts_count }}</div>
+                <div class="stat-label">السلات</div>
+            </div>
+        </div>
+    </div>
+
+</div>

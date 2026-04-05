@@ -1,0 +1,23 @@
+{% extends "vendors/base.html" %}
+
+{% block title %}حذف المنتج | لوحة التاجر{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body text-center">
+            <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3"></i>
+            <h3>تأكيد الحذف</h3>
+            <p>هل أنت متأكد من رغبتك في حذف المنتج "<strong>{{ product.name }}</strong>"؟ لا يمكن التراجع عن هذا الإجراء.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <a href="{% url 'vendors:product_list' %}" class="btn btn-secondary px-4">إلغاء</a>
+                    <button type="submit" class="btn btn-danger px-4">تأكيد الحذف النهائي</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

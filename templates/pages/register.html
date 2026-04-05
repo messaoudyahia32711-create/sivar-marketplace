@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد - SIVAR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #0F0F0F; color: white; margin: 0; }
+    </style>
+</head>
+<body>
+<div class="min-h-screen flex items-center justify-center relative py-20 overflow-hidden bg-[#0F0F0F]">
+    <!-- Decorative Blurs -->
+    <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[#D4AF37]/10 rounded-full blur-[120px] -z-10 mix-blend-screen pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[120px] -z-10 mix-blend-screen pointer-events-none"></div>
+
+    <div class="w-full max-w-2xl px-4 relative z-10" dir="rtl">
+        <div class="text-center mb-8">
+            <a href="{% url 'home' %}" class="inline-block mb-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#8A7322] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(212,175,55,0.3)] group-hover:scale-110 transition-transform duration-500">
+                    <span class="text-2xl font-black text-[#0F0F0F]">S</span>
+                </div>
+            </a>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-[#D4AF37] to-[#F7E7CE] tracking-wide mb-2">إنشاء حساب جديد</h1>
+            <p class="text-gray-400 text-sm">انضم الآن إلى منصة SIVAR، بوابة التجارة والابتكار</p>
+        </div>
+
+        <div class="bg-[#141414]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden">
+            <!-- Glow Line -->
+            <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent"></div>
+
+            <!-- Role Selector Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-8 bg-[#0a0a0a] p-2 rounded-2xl border border-white/5">
+                <button type="button" class="role-tab active flex-1 min-w-[100px] text-sm py-2 px-1 rounded-xl font-bold transition-all text-[#D4AF37] bg-white/5 shadow-md" data-role="CUSTOMER">
+                    <i class="fas fa-user mb-1 block"></i> زبون
+                </button>
+                <button type="button" class="role-tab flex-1 min-w-[100px] text-sm py-2 px-1 rounded-xl text-gray-400 hover:text-white transition-all font-medium" data-role="VENDOR">
+                    <i class="fas fa-store mb-1 block"></i> تاجر
+                </button>
+                <button type="button" class="role-tab flex-1 min-w-[100px] text-sm py-2 px-1 rounded-xl text-gray-400 hover:text-white transition-all font-medium" data-role="INSTITUTION">
+                    <i class="fas fa-building mb-1 block"></i> مؤسسة
+                </button>
+                <button type="button" class="role-tab flex-1 min-w-[100px] text-sm py-2 px-1 rounded-xl text-gray-400 hover:text-white transition-all font-medium" data-role="INCUBATOR">
+                    <i class="fas fa-lightbulb mb-1 block"></i> حاضنة
+                </button>
+            </div>
+
+            <form id="registerForm" class="space-y-5 text-right">
+                <input type="hidden" id="roleInput" name="role" value="CUSTOMER">
+
+                <div id="errorAlert" class="hidden bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl transition-all"></div>
+                <div id="successAlert" class="hidden bg-green-500/10 border border-green-500/20 text-green-400 text-sm px-4 py-3 rounded-xl transition-all"></div>
+
+                <!-- Basic Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-gray-400">اسم المستخدم (للدخول)</label>
+                        <input type="text" id="username" required class="w-full bg-[#0F0F0F] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none text-sm transition-all shadow-inner">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-gray-400">البريد الإلكتروني</label>
+                        <input type="email" id="email" required class="w-full bg-[#0F0F0F] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none text-sm transition-all shadow-inner">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-gray-400">رقم الهاتف (الجزائري)</label>
+                        <input type="tel" id="phone_number" required placeholder="06XXXXXXXX" class="w-full bg-[#0F0F0F] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none text-sm text-left transition-all shadow-inner" dir="ltr">
+                    </div>
+                </div>
+
+                <!-- Dynamic Fields: Entity Name -->
+                <div id="entityNameContainer" class="space-y-1 hidden">
+                    <label id="entityNameLabel" class="block text-xs font-semibold text-[#D4AF37]">اسم الجهة</label>
+                    <input type="text" id="entity_name" class="w-full bg-[#0F0F0F] border border-[#D4AF37]/30 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] outline-none text-sm transition-all shadow-inner" placeholder="الاسم الكامل للكيان التجاري أو الأكاديمي...">
+                </div>
+
+                <!-- Dynamic Fields: Incubator Specific -->
+                <div id="incubatorFields" class="grid grid-cols-1 md:grid-cols-2 gap-5 hidden bg-blue-900/10 p-4 border border-blue-500/20 rounded-xl rounded-tr-none">
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="block text-xs font-semibold text-blue-300">الجامعة الوصية</label>
+                        <input type="text" id="university_name" class="w-full bg-[#0F0F0F] border border-blue-500/30 rounded-xl py-3 px-4 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-sm transition-all shadow-inner" placeholder="مثال: جامعة هواري بومدين للعلوم والتكنولوجيا...">
+                    </div>
+                </div>
+
+                <!-- Dynamic Fields: Institution Specific -->
+                <div id="institutionFields" class="grid grid-cols-1 md:grid-cols-2 gap-5 hidden bg-emerald-900/10 p-4 border border-emerald-500/20 rounded-xl rounded-tr-none">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-emerald-300">طبيعة نشاط المؤسسة</label>
+                        <input type="text" id="activity_type" class="w-full bg-[#0F0F0F] border border-emerald-500/30 rounded-xl py-3 px-4 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm transition-all shadow-inner" placeholder="مثال: ذكاء اصطناعي، طاقة متجددة...">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-emerald-300">الحاضنة الوصية (إن وجدت)</label>
+                        <select id="incubator_id" class="w-full bg-[#0F0F0F] border border-emerald-500/30 rounded-xl py-3 px-4 text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm transition-all shadow-inner">
+                            <option value="">-- تسجيل حر (مستقل) --</option>
+                            {% for inc in incubators %}
+                                <option value="{{ inc.id }}">{{ inc.first_name|default:inc.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Passwords -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 border-t border-white/5 pt-5">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-gray-400">كلمة المرور</label>
+                        <input type="password" id="password" required class="w-full bg-[#0F0F0F] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] outline-none text-sm transition-all shadow-inner">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-gray-400">تأكيد كلمة المرور</label>
+                        <input type="password" id="password_confirm" required class="w-full bg-[#0F0F0F] border border-white/10 rounded-xl py-3 px-4 text-white focus:border-[#D4AF37] outline-none text-sm transition-all shadow-inner">
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" id="submitBtn" class="w-full relative group overflow-hidden rounded-xl pt-[2px] pr-[2px] pb-[2px] pl-[2px] shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] transition-all duration-300 mt-8">
+                    <span class="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#8A7322] rounded-xl opacity-80 group-hover:opacity-100 transition-opacity"></span>
+                    <div class="relative flex items-center justify-center gap-2 bg-[#1A1A1A] group-hover:bg-transparent rounded-[10px] py-4 transition-colors duration-300">
+                        <span class="text-[#D4AF37] group-hover:text-[#0F0F0F] font-bold tracking-wide transition-colors" id="btnText">تأكيد وإنشاء الحساب</span>
+                        <i class="fas fa-check text-[#D4AF37] group-hover:text-[#0F0F0F] text-sm transition-colors" id="btnIcon"></i>
+                        <svg id="btnLoader" class="hidden animate-spin h-5 w-5 text-[#D4AF37]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                </button>
+            </form>
+            
+            <div class="mt-8 text-center text-sm text-gray-400 border-t border-white/5 pt-6">
+                هل تملك حساباً مسبقاً؟ 
+                <a href="{% url 'login' %}" class="text-[#D4AF37] hover:text-white font-bold transition-colors underline decoration-transparent hover:decoration-[#D4AF37] underline-offset-4">تسجيل الدخول</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tabs = document.querySelectorAll(".role-tab");
+    const roleInput = document.getElementById("roleInput");
+    
+    // Containers
+    const entityNameContainer = document.getElementById("entityNameContainer");
+    const entityNameLabel = document.getElementById("entityNameLabel");
+    const incubatorFields = document.getElementById("incubatorFields");
+    const institutionFields = document.getElementById("institutionFields");
+    const entityInput = document.getElementById("entity_name");
+
+    // UI Toggling Logic
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => {
+                t.classList.remove("active", "text-[#D4AF37]", "bg-white/5", "shadow-md");
+                t.classList.add("text-gray-400");
+                t.classList.remove("font-bold");
+                t.classList.add("font-medium");
+            });
+            tab.classList.add("active", "text-[#D4AF37]", "bg-white/5", "shadow-md", "font-bold");
+            tab.classList.remove("text-gray-400", "font-medium");
+            
+            const role = tab.getAttribute("data-role");
+            roleInput.value = role;
+
+            // Reset visibilities
+            entityNameContainer.classList.add("hidden");
+            incubatorFields.classList.add("hidden");
+            institutionFields.classList.add("hidden");
+            entityInput.removeAttribute('required');
+            
+            if (role === 'VENDOR') {
+                entityNameContainer.classList.remove("hidden");
+                entityNameLabel.textContent = "اسم المتجر التعريفي (اختياري)";
+            } 
+            else if (role === 'INSTITUTION') {
+                entityNameContainer.classList.remove("hidden");
+                institutionFields.classList.remove("hidden");
+                entityNameLabel.textContent = "اسم المؤسسة الناشئة (إجباري)";
+                entityInput.setAttribute('required', 'true');
+            } 
+            else if (role === 'INCUBATOR') {
+                entityNameContainer.classList.remove("hidden");
+                incubatorFields.classList.remove("hidden");
+                entityNameLabel.textContent = "اسم الحاضنة (إجباري)";
+                entityInput.setAttribute('required', 'true');
+            }
+        });
+    });
+
+    // Form Submission
+    const form = document.getElementById("registerForm");
+    const errorAlert = document.getElementById("errorAlert");
+    const successAlert = document.getElementById("successAlert");
+    const btnText = document.getElementById("btnText");
+    const btnIcon = document.getElementById("btnIcon");
+    const btnLoader = document.getElementById("btnLoader");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        errorAlert.classList.add("hidden");
+        successAlert.classList.add("hidden");
+
+        const password = document.getElementById("password").value;
+        const password_confirm = document.getElementById("password_confirm").value;
+
+        if (password !== password_confirm) {
+            errorAlert.textContent = "كلمتا المرور غير متطابقتين!";
+            errorAlert.classList.remove("hidden");
+            return;
+        }
+
+        btnText.classList.add("hidden");
+        btnIcon.classList.add("hidden");
+        btnLoader.classList.remove("hidden");
+        
+        const payload = {
+            role: roleInput.value,
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            phone_number: document.getElementById("phone_number").value,
+            password: password,
+            password2: password_confirm,
+            entity_name: document.getElementById("entity_name").value,
+            university_name: document.getElementById("university_name").value,
+            activity_type: document.getElementById("activity_type").value,
+            incubator_id: document.getElementById("incubator_id").value || null,
+        };
+
+        try {
+            const response = await fetch('/api/users/register/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                successAlert.textContent = "نجح التسجيل! نقوم بتوجيهك للوحة التحكم الآن...";
+                successAlert.classList.remove("hidden");
+                
+                const role = data.user.role;
+                const token = data.token;
+                
+                setTimeout(() => {
+                    if (role === 'VENDOR' || role === 'SELLER') window.location.href = `http://localhost:5175/login?token=${token}`;
+                    else if (role === 'INSTITUTION') window.location.href = `http://localhost:5174/login?token=${token}`;
+                    else if (role === 'CUSTOMER') window.location.href = `http://localhost:5176/login?token=${token}`;
+                    else if (role === 'INCUBATOR') window.location.href = `http://localhost:5177/login?token=${token}`;
+                    else window.location.href = `/`;
+                }, 1500);
+            } else {
+                let msg = data.message || "فشل إنشاء الحساب.";
+                if (data.errors) {
+                    const firstErrorKey = Object.keys(data.errors)[0];
+                    msg = data.errors[firstErrorKey][0];
+                }
+                errorAlert.textContent = msg;
+                errorAlert.classList.remove("hidden");
+            }
+        } catch (err) {
+            errorAlert.textContent = "حدث خطأ في الاتصال بالشبكة.";
+            errorAlert.classList.remove("hidden");
+            console.error(err);
+        } finally {
+            if (successAlert.classList.contains("hidden")) {
+                btnLoader.classList.add("hidden");
+                btnText.classList.remove("hidden");
+                btnIcon.classList.remove("hidden");
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>

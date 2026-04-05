@@ -1,0 +1,739 @@
+{% extends "vendors/base.html" %}
+{% load static %}
+
+{% block title %}
+{% if form.instance.pk %}تعديل المنتج{% else %}إضافة منتج جديد{% endif %} | لوحة التاجر
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ══════════════════════════════════════════
+       🎨 Design System — Vendor Product Form
+    ══════════════════════════════════════════ */
+
+    :root {
+        --v-primary: #6C63FF;
+        --v-primary-lt: #EEEDFF;
+        --v-success: #2ECC71;
+        --v-success-lt: #E8FAF0;
+        --v-danger: #E74C6F;
+        --v-danger-lt: #FDECF1;
+        --v-gray-50: #F9FAFB;
+        --v-gray-100: #F3F4F6;
+        --v-gray-200: #E5E7EB;
+        --v-gray-400: #9CA3AF;
+        --v-gray-500: #6B7280;
+        --v-gray-700: #374151;
+        --v-gray-900: #111827;
+        --v-radius: 16px;
+        --v-radius-sm: 10px;
+        --v-shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 4px 16px rgba(0, 0, 0, .04);
+        --v-shadow-lg: 0 4px 24px rgba(108, 99, 255, .12);
+        --v-transition: .25s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    body {
+        background: var(--v-gray-50);
+    }
+
+    /* ── Breadcrumb ────────────────────────── */
+    .breadcrumb-nav {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        font-size: .88rem;
+        color: var(--v-gray-400);
+        margin-bottom: 1.5rem;
+    }
+
+    .breadcrumb-nav a {
+        color: var(--v-primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .breadcrumb-nav a:hover {
+        text-decoration: underline;
+    }
+
+    .breadcrumb-nav i {
+        font-size: .65rem;
+    }
+
+    /* ── Form Card ─────────────────────────── */
+    .form-card {
+        background: #fff;
+        border-radius: var(--v-radius);
+        box-shadow: var(--v-shadow);
+        overflow: hidden;
+        max-width: 920px;
+        margin: 0 auto;
+    }
+
+    .form-card-header {
+        padding: 1.75rem 2rem 1.5rem;
+        border-bottom: 1px solid var(--v-gray-100);
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .form-card-header .header-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.15rem;
+        flex-shrink: 0;
+    }
+
+    .header-icon.add {
+        background: var(--v-primary-lt);
+        color: var(--v-primary);
+    }
+
+    .header-icon.edit {
+        background: #FFF3E0;
+        color: #EF8C1A;
+    }
+
+    .form-card-header h2 {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--v-gray-900);
+        margin: 0;
+    }
+
+    .form-card-header p {
+        margin: .15rem 0 0;
+        font-size: .84rem;
+        color: var(--v-gray-400);
+    }
+
+    .form-card-body {
+        padding: 2rem;
+    }
+
+    /* ── Section Titles ────────────────────── */
+    .section-title {
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: var(--v-gray-400);
+        margin-bottom: 1.25rem;
+        padding-bottom: .5rem;
+        border-bottom: 2px solid var(--v-gray-100);
+        display: flex;
+        align-items: center;
+        gap: .45rem;
+    }
+
+    .section-title i {
+        font-size: .72rem;
+    }
+
+    /* ── Custom Form Controls ──────────────── */
+    .field-group {
+        margin-bottom: 1.4rem;
+    }
+
+    .field-group label {
+        display: block;
+        font-size: .88rem;
+        font-weight: 600;
+        color: var(--v-gray-700);
+        margin-bottom: .45rem;
+    }
+
+    .field-group label .required {
+        color: var(--v-danger);
+        margin-right: .15rem;
+    }
+
+    .field-group .form-control,
+    .field-group .form-select {
+        border: 1.5px solid var(--v-gray-200);
+        border-radius: var(--v-radius-sm);
+        padding: .7rem 1rem;
+        font-size: .92rem;
+        color: var(--v-gray-900);
+        transition: var(--v-transition);
+        background-color: #fff;
+    }
+
+    .field-group .form-control:focus,
+    .field-group .form-select:focus {
+        border-color: var(--v-primary);
+        box-shadow: 0 0 0 4px rgba(108, 99, 255, .1);
+        outline: none;
+    }
+
+    .field-group .form-control.is-invalid,
+    .field-group .form-select.is-invalid {
+        border-color: var(--v-danger);
+    }
+
+    .field-group .invalid-feedback {
+        font-size: .8rem;
+        color: var(--v-danger);
+        margin-top: .3rem;
+        display: flex;
+        align-items: center;
+        gap: .3rem;
+    }
+
+    .field-group textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    /* ── Image Dropzone ────────────────────── */
+    .image_main-dropzone {
+        border: 2px dashed var(--v-gray-200);
+        border-radius: var(--v-radius);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--v-transition);
+        position: relative;
+        background: var(--v-gray-50);
+    }
+
+    .image_main-dropzone:hover,
+    .image_main-dropzone.dragover {
+        border-color: var(--v-primary);
+        background: var(--v-primary-lt);
+    }
+
+    .image_main-dropzone .dropzone-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--v-primary-lt);
+        display: grid;
+        place-items: center;
+        margin: 0 auto .8rem;
+        font-size: 1.4rem;
+        color: var(--v-primary);
+    }
+
+    .image_main-dropzone h4 {
+        font-size: .95rem;
+        font-weight: 700;
+        color: var(--v-gray-700);
+        margin: 0 0 .25rem;
+    }
+
+    .image_main-dropzone p {
+        font-size: .8rem;
+        color: var(--v-gray-400);
+        margin: 0;
+    }
+
+    .image_main-dropzone input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .image_main-preview {
+        margin-top: 1rem;
+        display: none;
+    }
+
+    .image_main-preview img {
+        max-width: 150px;
+        max-height: 150px;
+        border-radius: var(--v-radius-sm);
+        object-fit: cover;
+        box-shadow: var(--v-shadow);
+    }
+
+    .image_main-preview.has-image_main {
+        display: block;
+    }
+
+    .current-image_main {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+        margin-bottom: 1rem;
+        padding: .75rem;
+        background: var(--v-gray-50);
+        border-radius: var(--v-radius-sm);
+    }
+
+    .current-image_main img {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--v-radius-sm);
+        object-fit: cover;
+    }
+
+    .current-image_main span {
+        font-size: .85rem;
+        color: var(--v-gray-500);
+    }
+
+    /* ── Switch Toggle ─────────────────────── */
+    .switch-field {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        background: var(--v-gray-50);
+        border-radius: var(--v-radius-sm);
+        border: 1.5px solid var(--v-gray-200);
+        transition: var(--v-transition);
+    }
+
+    .switch-field:has(input:checked) {
+        background: var(--v-success-lt);
+        border-color: var(--v-success);
+    }
+
+    .switch-field .switch-label {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .switch-field .switch-label i {
+        font-size: 1rem;
+        color: var(--v-gray-400);
+    }
+
+    .switch-field:has(input:checked) .switch-label i {
+        color: var(--v-success);
+    }
+
+    .switch-field .switch-label .title {
+        font-weight: 600;
+        color: var(--v-gray-700);
+        font-size: .92rem;
+    }
+
+    .switch-field .switch-label .subtitle {
+        font-size: .78rem;
+        color: var(--v-gray-400);
+    }
+
+    .custom-switch {
+        position: relative;
+        width: 50px;
+        height: 28px;
+        flex-shrink: 0;
+    }
+
+    .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .custom-switch .slider {
+        position: absolute;
+        inset: 0;
+        background: var(--v-gray-200);
+        border-radius: 50px;
+        transition: var(--v-transition);
+        cursor: pointer;
+    }
+
+    .custom-switch .slider::before {
+        content: '';
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #fff;
+        top: 3px;
+        right: 3px;
+        transition: var(--v-transition);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    }
+
+    .custom-switch input:checked+.slider {
+        background: var(--v-success);
+    }
+
+    .custom-switch input:checked+.slider::before {
+        transform: translateX(-22px);
+    }
+
+    /* ── Form Footer ───────────────────────── */
+    .form-card-footer {
+        padding: 1.25rem 2rem;
+        border-top: 1px solid var(--v-gray-100);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: .75rem;
+        background: var(--v-gray-50);
+    }
+
+    .btn-save {
+        background: var(--v-primary);
+        color: #fff;
+        border: none;
+        padding: .75rem 2rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: .95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        transition: var(--v-transition);
+        box-shadow: 0 4px 14px rgba(108, 99, 255, .3);
+        cursor: pointer;
+    }
+
+    .btn-save:hover {
+        background: #5A52E0;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(108, 99, 255, .4);
+    }
+
+    .btn-cancel {
+        background: #fff;
+        color: var(--v-gray-500);
+        border: 1.5px solid var(--v-gray-200);
+        padding: .75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: .92rem;
+        text-decoration: none;
+        transition: var(--v-transition);
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+    }
+
+    .btn-cancel:hover {
+        border-color: var(--v-gray-400);
+        color: var(--v-gray-700);
+    }
+
+    /* ── Alerts ─────────────────────────────── */
+    .alert-errors {
+        background: var(--v-danger-lt);
+        border: 1px solid rgba(231, 76, 111, .2);
+        border-radius: var(--v-radius-sm);
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: .75rem;
+        align-items: flex-start;
+    }
+
+    .alert-errors i {
+        color: var(--v-danger);
+        font-size: 1.1rem;
+        margin-top: 2px;
+    }
+
+    .alert-errors ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .alert-errors ul li {
+        font-size: .86rem;
+        color: var(--v-danger);
+        padding: .15rem 0;
+    }
+
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 768px) {
+        .form-card-body {
+            padding: 1.25rem;
+        }
+
+        .form-card-header {
+            padding: 1.25rem;
+        }
+
+        .form-card-footer {
+            padding: 1rem 1.25rem;
+        }
+
+        .form-card-footer {
+            flex-direction: column;
+        }
+
+        .btn-save,
+        .btn-cancel {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-md-5" style="max-width: 960px;">
+
+    <!-- ════ Breadcrumb ════ -->
+    <div class="breadcrumb-nav">
+        <a href="{% url 'vendors:product_list' %}">منتجاتي</a>
+        <i class="fas fa-chevron-left"></i>
+        <span>
+            {% if form.instance.pk %}تعديل المنتج{% else %}إضافة منتج جديد{% endif %}
+        </span>
+    </div>
+
+    <!-- ════ Form Card ════ -->
+    <div class="form-card">
+
+        <!-- Header -->
+        <div class="form-card-header">
+            <div class="header-icon {% if form.instance.pk %}edit{% else %}add{% endif %}">
+                <i class="fas {% if form.instance.pk %}fa-pen{% else %}fa-plus{% endif %}"></i>
+            </div>
+            <div>
+                <h2>{% if form.instance.pk %}تعديل المنتج{% else %}إضافة منتج جديد{% endif %}</h2>
+                <p>{% if form.instance.pk %}قم بتحديث بيانات منتجك{% else %}أدخل بيانات المنتج لبدء عرضه في المتجر{%
+                    endif %}</p>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="form-card-body">
+
+            <!-- Global Errors -->
+            {% if form.non_field_errors %}
+            <div class="alert-errors">
+                <i class="fas fa-exclamation-circle"></i>
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data" novalidate id="productForm">
+                {% csrf_token %}
+
+                <div class="row g-4">
+                    <!-- ══════ Right Column ══════ -->
+                    <div class="col-lg-6">
+                        <div class="section-title">
+                            <i class="fas fa-info-circle"></i>
+                            المعلومات الأساسية
+                        </div>
+
+                        <!-- Name -->
+                        <div class="field-group">
+                            <label for="{{ form.name.id_for_label }}">
+                                اسم المنتج <span class="required">*</span>
+                            </label>
+                            <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}"
+                                value="{{ form.name.value|default:'' }}"
+                                class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                placeholder="مثال: سماعة بلوتوث لاسلكية">
+                            {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.name.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Description -->
+                        <div class="field-group">
+                            <label for="{{ form.description.id_for_label }}">
+                                وصف المنتج
+                            </label>
+                            <textarea id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}"
+                                class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                                placeholder="اكتب وصفاً جذاباً للمنتج..."
+                                rows="5">{{ form.description.value|default:'' }}</textarea>
+                            {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.description.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Price -->
+                        <div class="field-group">
+                            <label for="{{ form.price.id_for_label }}">
+                                السعر (ر.س) <span class="required">*</span>
+                            </label>
+                            <input type="number" id="{{ form.price.id_for_label }}" name="{{ form.price.html_name }}"
+                                value="{{ form.price.value|default:'' }}"
+                                class="form-control {% if form.price.errors %}is-invalid{% endif %}" placeholder="0.00"
+                                min="0" step="0.01">
+                            {% if form.price.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.price.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="field-group">
+                            <label for="{{ form.stock.id_for_label }}">
+                                الكمية المتوفرة <span class="required">*</span>
+                            </label>
+                            <input type="number" id="{{ form.stock.id_for_label }}" name="{{ form.stock.html_name }}"
+                                value="{{ form.stock.value|default:'' }}"
+                                class="form-control {% if form.stock.errors %}is-invalid{% endif %}" placeholder="0"
+                                min="0">
+                            {% if form.stock.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.stock.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- ══════ Left Column ══════ -->
+                    <div class="col-lg-6">
+                        <div class="section-title">
+                            <i class="fas fa-cog"></i>
+                            التصنيف والإعدادات
+                        </div>
+
+                        <!-- Category -->
+                        <div class="field-group">
+                            <label for="{{ form.category.id_for_label }}">
+                                التصنيف <span class="required">*</span>
+                            </label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.category.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Brand -->
+                        <div class="field-group">
+                            <label for="{{ form.brand.id_for_label }}">
+                                العلامة التجارية
+                            </label>
+                            {{ form.brand }}
+                            {% if form.brand.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.brand.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="field-group">
+                            <label>صورة المنتج</label>
+
+                            {% if form.instance.image_main %}
+                            <div class="current-image_main">
+                                <img src="{{ form.instance.image_main.url }}" alt="الصورة الحالية">
+                                <span>الصورة الحالية — ارفع صورة جديدة للاستبدال</span>
+                            </div>
+                            {% endif %}
+
+                            <div class="image_main-dropzone" id="image_mainDropzone">
+                                <input type="file" id="{{ form.image_main.id_for_label }}" name="{{ form.image_main.html_name }}"
+                                    accept="image_main/*">
+                                <div class="dropzone-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h4>اسحب الصورة هنا أو اضغط للاختيار</h4>
+                                <p>PNG, JPG, WEBP — حد أقصى 5MB</p>
+                            </div>
+                            <div class="image_main-preview" id="image_mainPreview">
+                                <img src="" alt="معاينة" id="previewImg">
+                            </div>
+                            {% if form.image_main.errors %}
+                            <div class="invalid-feedback d-block">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ form.image_main.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Is Active (Switch) -->
+                        <div class="field-group">
+                            <label>حالة المنتج</label>
+                            <div class="switch-field">
+                                <div class="switch-label">
+                                    <i class="fas fa-toggle-on"></i>
+                                    <div>
+                                        <div class="title">نشط ومعروض للبيع</div>
+                                        <div class="subtitle">سيظهر المنتج للعملاء في المتجر</div>
+                                    </div>
+                                </div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="{{ form.is_active.html_name }}" {% if
+                                        form.is_active.value %}checked{% endif %}>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="form-card-footer">
+            <a href="{% url 'vendors:product_list' %}" class="btn-cancel">
+                <i class="fas fa-times"></i>
+                إلغاء
+            </a>
+            <button type="submit" form="productForm" class="btn-save">
+                <i class="fas fa-check"></i>
+                {% if form.instance.pk %}حفظ التعديلات{% else %}إضافة المنتج{% endif %}
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // ── Image Preview & Drag-and-Drop ──
+    const dropzone = document.getElementById('image_mainDropzone');
+    const preview = document.getElementById('image_mainPreview');
+    const previewImg = document.getElementById('previewImg');
+    const fileInput = dropzone.querySelector('input[type="file"]');
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                preview.classList.add('has-image_main');
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    ['dragenter', 'dragover'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+        });
+    });
+    dropzone.addEventListener('drop', (e) => {
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change'));
+    });
+</script>
+{% endblock %}

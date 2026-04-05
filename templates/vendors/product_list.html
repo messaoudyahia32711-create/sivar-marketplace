@@ -1,0 +1,670 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}منتجاتي | لوحة التاجر{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ══════════════════════════════════════════
+       🎨 Design System — Vendor Product List
+    ══════════════════════════════════════════ */
+
+    :root {
+        --v-primary: #6C63FF;
+        --v-primary-lt: #EEEDFF;
+        --v-success: #2ECC71;
+        --v-success-lt: #E8FAF0;
+        --v-danger: #E74C6F;
+        --v-danger-lt: #FDECF1;
+        --v-warning: #F0A500;
+        --v-warning-lt: #FFF7E6;
+        --v-gray-50: #F9FAFB;
+        --v-gray-100: #F3F4F6;
+        --v-gray-200: #E5E7EB;
+        --v-gray-400: #9CA3AF;
+        --v-gray-500: #6B7280;
+        --v-gray-700: #374151;
+        --v-gray-900: #111827;
+        --v-radius: 16px;
+        --v-radius-sm: 10px;
+        --v-shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 4px 16px rgba(0, 0, 0, .04);
+        --v-shadow-lg: 0 4px 24px rgba(108, 99, 255, .12);
+        --v-transition: .25s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    body {
+        background: var(--v-gray-50);
+    }
+
+    /* ── Page Header ───────────────────────── */
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: var(--v-gray-900);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+    }
+
+    .page-header h1 .icon-wrap {
+        width: 44px;
+        height: 44px;
+        background: var(--v-primary-lt);
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: var(--v-primary);
+        font-size: 1.15rem;
+    }
+
+    .page-header .badge-count {
+        background: var(--v-gray-200);
+        color: var(--v-gray-700);
+        font-size: .8rem;
+        font-weight: 700;
+        padding: .3rem .7rem;
+        border-radius: 20px;
+        margin-right: .35rem;
+    }
+
+    .btn-add-product {
+        background: var(--v-primary);
+        color: #fff;
+        border: none;
+        padding: .7rem 1.6rem;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: .95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        transition: var(--v-transition);
+        box-shadow: 0 4px 14px rgba(108, 99, 255, .35);
+        text-decoration: none;
+    }
+
+    .btn-add-product:hover {
+        background: #5A52E0;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 99, 255, .45);
+    }
+
+    .btn-add-product i {
+        font-size: .85rem;
+        background: rgba(255, 255, 255, .25);
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+    }
+
+    /* ── Stats Row ─────────────────────────── */
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: #fff;
+        border-radius: var(--v-radius);
+        padding: 1.25rem 1.5rem;
+        box-shadow: var(--v-shadow);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .stat-card .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .stat-card .stat-info h4 {
+        margin: 0;
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: var(--v-gray-900);
+    }
+
+    .stat-card .stat-info span {
+        font-size: .82rem;
+        color: var(--v-gray-500);
+        font-weight: 500;
+    }
+
+    .stat-icon.purple {
+        background: var(--v-primary-lt);
+        color: var(--v-primary);
+    }
+
+    .stat-icon.green {
+        background: var(--v-success-lt);
+        color: var(--v-success);
+    }
+
+    .stat-icon.red {
+        background: var(--v-danger-lt);
+        color: var(--v-danger);
+    }
+
+    /* ── Desktop Table ─────────────────────── */
+    .products-table-wrap {
+        background: #fff;
+        border-radius: var(--v-radius);
+        box-shadow: var(--v-shadow);
+        overflow: hidden;
+    }
+
+    .products-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .products-table thead th {
+        background: var(--v-gray-50);
+        color: var(--v-gray-500);
+        font-weight: 600;
+        font-size: .82rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--v-gray-200);
+        white-space: nowrap;
+    }
+
+    .products-table tbody tr {
+        transition: var(--v-transition);
+    }
+
+    .products-table tbody tr:hover {
+        background: var(--v-gray-50);
+    }
+
+    .products-table tbody td {
+        padding: 1rem 1.25rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--v-gray-100);
+        color: var(--v-gray-700);
+        font-size: .92rem;
+    }
+
+    .products-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* product cell */
+    .product-cell {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+    }
+
+    .product-thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--v-radius-sm);
+        object-fit: cover;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+        flex-shrink: 0;
+        background: var(--v-gray-100);
+    }
+
+    .product-name {
+        font-weight: 700;
+        color: var(--v-gray-900);
+        margin-bottom: 2px;
+        font-size: .95rem;
+    }
+
+    .product-brand {
+        font-size: .78rem;
+        color: var(--v-gray-400);
+    }
+
+    /* price */
+    .price-tag {
+        font-weight: 800;
+        color: var(--v-success);
+        font-size: 1rem;
+        direction: ltr;
+        display: inline-block;
+    }
+
+    /* badge */
+    .badge-stock {
+        padding: .35rem .85rem;
+        border-radius: 50px;
+        font-size: .76rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+    }
+
+    .badge-stock.in-stock {
+        background: var(--v-success-lt);
+        color: #1B8B4A;
+    }
+
+    .badge-stock.out-of-stock {
+        background: var(--v-danger-lt);
+        color: var(--v-danger);
+    }
+
+    .badge-stock .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .badge-stock.in-stock .dot {
+        background: var(--v-success);
+    }
+
+    .badge-stock.out-of-stock .dot {
+        background: var(--v-danger);
+    }
+
+    /* status */
+    .status-active {
+        color: var(--v-success);
+    }
+
+    .status-inactive {
+        color: var(--v-gray-400);
+    }
+
+    /* action buttons */
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--v-radius-sm);
+        display: inline-grid;
+        place-items: center;
+        border: 1.5px solid transparent;
+        background: transparent;
+        font-size: .88rem;
+        transition: var(--v-transition);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .action-btn.edit {
+        color: var(--v-warning);
+        border-color: var(--v-warning);
+    }
+
+    .action-btn.edit:hover {
+        background: var(--v-warning);
+        color: #fff;
+    }
+
+    .action-btn.delete {
+        color: var(--v-danger);
+        border-color: var(--v-danger);
+    }
+
+    .action-btn.delete:hover {
+        background: var(--v-danger);
+        color: #fff;
+    }
+
+    /* ── Mobile Cards ──────────────────────── */
+    .product-cards-mobile {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .product-card-m {
+        background: #fff;
+        border-radius: var(--v-radius);
+        box-shadow: var(--v-shadow);
+        padding: 1.15rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        transition: var(--v-transition);
+    }
+
+    .product-card-m:hover {
+        box-shadow: var(--v-shadow-lg);
+    }
+
+    .product-card-m .thumb {
+        width: 72px;
+        height: 72px;
+        border-radius: var(--v-radius-sm);
+        object-fit: cover;
+        flex-shrink: 0;
+        background: var(--v-gray-100);
+    }
+
+    .product-card-m .info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .product-card-m .info h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--v-gray-900);
+        margin: 0 0 .25rem;
+    }
+
+    .product-card-m .meta {
+        display: flex;
+        align-items: center;
+        gap: .65rem;
+        flex-wrap: wrap;
+        margin-top: .5rem;
+    }
+
+    .product-card-m .actions-m {
+        display: flex;
+        gap: .5rem;
+        margin-top: .7rem;
+    }
+
+    /* ── Empty State ───────────────────────── */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 1rem;
+    }
+
+    .empty-state .empty-illustration {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 2rem;
+        background: var(--v-primary-lt);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        position: relative;
+    }
+
+    .empty-state .empty-illustration i {
+        font-size: 4rem;
+        color: var(--v-primary);
+        opacity: .7;
+    }
+
+    .empty-state .empty-illustration .truck-icon {
+        position: absolute;
+        bottom: 18px;
+        left: 18px;
+        width: 42px;
+        height: 42px;
+        background: var(--v-warning-lt);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 1.1rem;
+        color: var(--v-warning);
+        border: 3px solid #fff;
+    }
+
+    .empty-state h3 {
+        font-weight: 700;
+        color: var(--v-gray-700);
+        font-size: 1.3rem;
+        margin-bottom: .5rem;
+    }
+
+    .empty-state p {
+        color: var(--v-gray-400);
+        max-width: 360px;
+        margin: 0 auto 1.5rem;
+        line-height: 1.7;
+    }
+
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 768px) {
+        .products-table-wrap {
+            display: none;
+        }
+
+        .product-cards-mobile {
+            display: flex;
+        }
+
+        .page-header h1 {
+            font-size: 1.4rem;
+        }
+
+        .stats-row {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-md-5" style="max-width: 1100px;">
+
+    <!-- ════ Page Header ════ -->
+    <div class="page-header">
+        <h1>
+            <span class="icon-wrap">
+                <i class="fas fa-box-open"></i>
+            </span>
+            منتجاتي
+            {% if products %}
+            <span class="badge-count">{{ products|length }}</span>
+            {% endif %}
+        </h1>
+        <a href="{% url 'vendor-product-create' %}" class="btn-add-product">
+            <i class="fas fa-plus"></i>
+            إضافة منتج جديد
+        </a>
+    </div>
+
+    {% if products %}
+    <!-- ════ Stats Row ════ -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon purple">
+                <i class="fas fa-cubes"></i>
+            </div>
+            <div class="stat-info">
+                <h4>{{ products|length }}</h4>
+                <span>إجمالي المنتجات</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h4>{{ active_count|default:"0" }}</h4>
+                <span>منتج نشط</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon red">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-info">
+                <h4>{{ out_of_stock_count|default:"0" }}</h4>
+                <span>نفذت الكمية</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════ Desktop Table ════ -->
+    <div class="products-table-wrap">
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>المنتج</th>
+                    <th>التصنيف</th>
+                    <th>السعر</th>
+                    <th>المخزون</th>
+                    <th>الحالة</th>
+                    <th style="text-align: center;">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <!-- Product Info -->
+                    <td>
+                        <div class="product-cell">
+                            {% if product.image_main %}
+                            <img src="{{ product.image_main.url }}" alt="{{ product.name }}" class="product-thumb"
+                                loading="lazy">
+                            {% else %}
+                            <div class="product-thumb d-grid place-items-center"
+                                style="display:grid;place-items:center;color:var(--v-gray-400);">
+                                <i class="fas fa-image_main"></i>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <div class="product-name">{{ product.name }}</div>
+                                {% if product.brand %}
+                                <div class="product-brand">{{ product.brand }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Category -->
+                    <td>{{ product.category|default:"—" }}</td>
+
+                    <!-- Price -->
+                    <td>
+                        <span class="price-tag">{{ product.price }} ر.س</span>
+                    </td>
+
+                    <!-- Stock -->
+                    <td>
+                        {% if product.stock > 0 %}
+                        <span class="badge-stock in-stock">
+                            <span class="dot"></span>
+                            متوفر ({{ product.stock }})
+                        </span>
+                        {% else %}
+                        <span class="badge-stock out-of-stock">
+                            <span class="dot"></span>
+                            نفذ
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Status -->
+                    <td>
+                        {% if product.is_active %}
+                        <i class="fas fa-circle status-active" style="font-size:.55rem;"></i>
+                        <span style="font-size:.88rem;">نشط</span>
+                        {% else %}
+                        <i class="fas fa-circle status-inactive" style="font-size:.55rem;"></i>
+                        <span style="font-size:.88rem;">معطّل</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Actions -->
+                    <td style="text-align:center;">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="{% url 'vendor-product-update' product.pk %}" class="action-btn edit"
+                                title="تعديل">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{% url 'vendor-product-delete' product.pk %}" class="action-btn delete"
+                                title="حذف">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ════ Mobile Cards ════ -->
+    <div class="product-cards-mobile">
+        {% for product in products %}
+        <div class="product-card-m">
+            {% if product.image_main %}
+            <img src="{{ product.image_main.url }}" alt="{{ product.name }}" class="thumb" loading="lazy">
+            {% else %}
+            <div class="thumb d-grid" style="display:grid;place-items:center;color:var(--v-gray-400);">
+                <i class="fas fa-image_main fa-lg"></i>
+            </div>
+            {% endif %}
+            <div class="info">
+                <h3>{{ product.name }}</h3>
+                {% if product.brand %}
+                <small class="text-muted">{{ product.brand }}</small>
+                {% endif %}
+                <div class="meta">
+                    <span class="price-tag" style="font-size:.92rem;">
+                        {{ product.price }} ر.س
+                    </span>
+                    {% if product.stock > 0 %}
+                    <span class="badge-stock in-stock">
+                        <span class="dot"></span> {{ product.stock }}
+                    </span>
+                    {% else %}
+                    <span class="badge-stock out-of-stock">
+                        <span class="dot"></span> نفذ
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="actions-m">
+                    <a href="{% url 'vendor-product-update' product.pk %}" class="action-btn edit"><i
+                            class="fas fa-pen"></i></a>
+                    <a href="{% url 'vendor-product-delete' product.pk %}" class="action-btn delete"><i
+                            class="fas fa-trash-alt"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- ════ Empty State ════ -->
+    <div class="empty-state">
+        <div class="empty-illustration">
+            <i class="fas fa-box-open"></i>
+            <div class="truck-icon">
+                <i class="fas fa-truck"></i>
+            </div>
+        </div>
+        <h3>لم تقم بإضافة منتجات بعد</h3>
+        <p>ابدأ الآن بإضافة أول منتج لك وابدأ رحلتك في البيع!</p>
+        <a href="{% url 'vendor-product-create' %}" class="btn-add-product">
+            <i class="fas fa-plus"></i>
+            إضافة أول منتج
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
