@@ -179,10 +179,31 @@ class Command(BaseCommand):
             {'name': 'حذاء مشي طبي لمرضى السكري', 'cat': cat_sports, 'vendor': vendor_health, 'price': 8500, 'brand': 'Dr. Comfort', 'desc': 'حذاء طبي مصمم خصيصاً لمرضى السكر والقدم الحساسة. نعل طبي داعم لتفادي التقرحات. متوفر بعدة مقاسات.'},
         ]
 
+        # الصور التجريبية للمنتجات
+        import os, shutil
+        from django.conf import settings as django_settings
+        demo_product_images = [
+            'demo/products/76843.jpeg',
+            'demo/products/43f62bee7e196db9cfddf48ff11bc404.jpg',
+            'demo/products/2D75cWvMYYIYBLLKb4dzTKMzzfYVqKOtgIsysRwX.jpg',
+            'demo/products/7850893a-486d-488a-89ba-a7c2fb1564af-1000x562-FgLIOPE8lZWEh8zTwnbhoaVg2qEvSrQ9ez3cb1qz.webp',
+        ]
+
         for i, p in enumerate(products_data):
             discount = None
             if random.random() < 0.3:
                 discount = Decimal(str(round(p['price'] * random.uniform(0.7, 0.9), -1)))
+
+            # اختيار صورة من المجلد التجريبي
+            img_source = demo_product_images[i % len(demo_product_images)]
+            slug = slugify(p['name'], allow_unicode=True)
+            ext = os.path.splitext(img_source)[1]
+            dest_relative = f'products/{slug}/main{ext}'
+            dest_full = os.path.join(django_settings.MEDIA_ROOT, dest_relative)
+            os.makedirs(os.path.dirname(dest_full), exist_ok=True)
+            source_full = os.path.join(django_settings.MEDIA_ROOT, img_source)
+            if os.path.exists(source_full):
+                shutil.copy2(source_full, dest_full)
 
             Product.objects.create(
                 vendor=p['vendor'],
@@ -195,6 +216,7 @@ class Command(BaseCommand):
                 stock=random.randint(5, 150),
                 is_active=True,
                 is_featured=random.random() < 0.25,
+                image_main=dest_relative if os.path.exists(source_full) else None,
             )
 
         self.stdout.write(self.style.SUCCESS(f"[OK] Created {len(products_data)} products"))
