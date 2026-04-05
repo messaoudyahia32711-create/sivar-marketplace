@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ar-dz'
 TIME_ZONE = 'Africa/Algiers'
 USE_I18N = True
-USE_TZ = True
+USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']

@@ -827,9 +827,25 @@
             padding: 30px;
             max-width: 900px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
             transform: translateY(20px) scale(0.95);
             transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 6px;
+        }
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.6);
         }
 
         .modal-overlay.active .modal-content {
@@ -906,6 +922,23 @@
         .modal-info {
             display: flex;
             flex-direction: column;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-left: 10px; /* Arabic RTL padding */
+        }
+
+        .modal-info::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-info::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-info::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+        }
+        .modal-info::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.7);
         }
 
         .m-vendor {
@@ -946,6 +979,51 @@
             font-size: 1.8rem;
             font-weight: 900;
             color: var(--orange);
+        }
+
+        #m-store-btn {
+            margin-top: 30px;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.05rem;
+            font-weight: 900;
+            font-family: 'Tajawal', sans-serif;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #D2691E, #e87b20);
+            color: #0F0F0F;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(210, 105, 30, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #m-store-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+
+        #m-store-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(210, 105, 30, 0.6);
+        }
+
+        #m-store-btn:hover::after {
+            animation: shine 0.7s forwards;
+        }
+
+        @keyframes shine {
+            100% { left: 150%; }
         }
 
         @media(max-width: 900px) {
@@ -1041,7 +1119,7 @@
     <!-- Navbar -->
     <nav class="nav">
         <a href="/" class="nav-logo">
-            <div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span>
+            <img src="/static/img/sivar_logo.png" alt="Sivar" style="height: 55px; object-fit: contain;">
         </a>
         <ul class="nav-links">
             <li><a href="/">الرئيسية</a></li>
@@ -1225,9 +1303,9 @@
                             <div id="m-price" class="m-price-val"></div>
                         </div>
 
-                        <button class="price-btn"
-                            style="margin-top: 30px; padding: 14px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(212,175,55,.3);"
-                            onclick="goToStore()" id="m-store-btn">زيارة صفحة المتجر والمراسلة</button>
+                        <button onclick="goToStore()" id="m-store-btn">
+                            <i class="fas fa-store"></i> زيارة صفحة المتجر والمراسلة
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1754,7 +1832,7 @@
                     oldPriceEl.style.display = 'none';
                 }
 
-                currentStoreUrl = item.vendor ? `http://localhost:5174/store/${item.vendor}` : null;
+                currentStoreUrl = item.vendor_username ? `http://localhost:5174/store/${item.vendor_username}` : null;
 
                 // Image Gallery
                 const thumbs = document.getElementById('modalThumbs');

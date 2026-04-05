@@ -13,6 +13,8 @@ class ServiceImageSerializer(serializers.ModelSerializer):
 
 class ServiceSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
+    vendor_username = serializers.CharField(source='vendor.username', read_only=True)
+    vendor_name = serializers.SerializerMethodField()
     images = ServiceImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
@@ -24,6 +26,7 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
         fields = [
             'id', 'name', 'description', 'price', 'category', 'category_name',
+            'vendor_username', 'vendor_name',
             'wilayas', 'image_main', 'duration_hours', 'is_active',
             'images', 'uploaded_images', 'created_at', 'updated_at'
         ]
@@ -52,3 +55,9 @@ class ServiceSerializer(serializers.ModelSerializer):
             ServiceImage.objects.create(service=instance, image=image_data)
             
         return instance
+
+    def get_vendor_name(self, obj) -> str:
+        if not obj.vendor:
+            return "مجهول"
+        full_name = obj.vendor.get_full_name()
+        return full_name.strip() or obj.vendor.username

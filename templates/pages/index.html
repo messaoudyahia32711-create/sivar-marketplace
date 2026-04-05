@@ -185,7 +185,9 @@
 
 <!-- Navbar -->
 <nav class="nav" id="navbar">
-    <a href="/" class="nav-logo"><div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span></a>
+    <a href="/" class="nav-logo">
+        <img src="/static/img/sivar_logo.png" alt="Sivar" style="height: 55px; object-fit: contain;">
+    </a>
     <ul class="nav-links">
         <li><a href="/" class="active">الرئيسية</a></li>
         <li><a href="#categories">التصنيفات</a></li>
@@ -247,8 +249,8 @@
         </div>
     </div>
     <div class="cat-tabs">
-        <button class="cat-tab active" onclick="showCatTab('products',this)">📦 تصنيفات المنتجات</button>
-        <button class="cat-tab" onclick="showCatTab('services',this)">🛠️ تصنيفات الخدمات</button>
+        <button class="cat-tab active" onclick="switchHomepageMode('products',this)">📦 تصنيفات المنتجات</button>
+        <button class="cat-tab" onclick="switchHomepageMode('services',this)">🛠️ تصنيفات الخدمات</button>
     </div>
     <div class="cat-grid" id="catGrid"></div>
 </section>
@@ -280,7 +282,7 @@
     <div class="sec-head">
         <div class="sec-title-g">
             <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-            <h2 class="sec-title">أحدث المنتجات</h2>
+            <h2 class="sec-title" id="latestSectionTitle">أحدث المنتجات</h2>
         </div>
     </div>
     <div class="scroll-wrap">
@@ -295,7 +297,7 @@
     <div class="sec-head">
         <div class="sec-title-g">
             <div class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
-            <h2 class="sec-title">عروض وخصومات</h2>
+            <h2 class="sec-title" id="dealsSectionTitle">عروض وخصومات</h2>
         </div>
     </div>
     <div class="scroll-wrap">
@@ -324,16 +326,28 @@
     <div class="footer-inner">
         <div class="footer-grid">
             <div>
-                <a href="/" class="nav-logo"><div class="nav-logo-icon">S</div><span class="nav-logo-text">SIVAR</span></a>
+                <a href="/" class="nav-logo">
+                    <img src="/static/img/sivar_logo.png" alt="Sivar" style="height: 60px; object-fit: contain;">
+                </a>
                 <p class="footer-desc">أول سوق إلكتروني جزائري متكامل يجمع بين المتاجر، المؤسسات، الخدمات، وحاضنات الأعمال في منصة واحدة آمنة وموثوقة.</p>
             </div>
             <div><h3 class="footer-col-title">روابط سريعة</h3><ul class="footer-links"><li><a href="/">الرئيسية</a></li><li><a href="#categories">التصنيفات</a></li><li><a href="#stores">المتاجر والمؤسسات</a></li><li><a href="#offers">العروض</a></li></ul></div>
             <div><h3 class="footer-col-title">انضم إلينا</h3><ul class="footer-links"><li><a href="/vendor/login/">افتح متجرك</a></li><li><a href="/vendor/login/">سجل كمؤسسة</a></li><li><a href="/vendor/login/">انضم كحاضنة أعمال</a></li></ul></div>
             <div><h3 class="footer-col-title">المساعدة</h3><ul class="footer-links"><li><a href="#">مركز المساعدة</a></li><li><a href="#">سياسة الإرجاع</a></li><li><a href="#">الشروط والأحكام</a></li><li><a href="#">اتصل بنا</a></li></ul></div>
         </div>
-        <div class="footer-bottom">
-            <span class="footer-copy">جميع الحقوق محفوظة &copy; 2025 <span style="color:var(--gold);font-weight:700">Sivar</span></span>
-            <div class="footer-pays"><div class="footer-pay">CCP</div><div class="footer-pay">CIB</div><div class="footer-pay">DAHABIA</div><div class="footer-pay">EDAHABIA</div></div>
+        <div class="footer-bottom" style="flex-direction: column; gap: 20px;">
+            <div style="text-align: center; line-height: 1.6;">
+                <p style="background: linear-gradient(to left, var(--gold), var(--gold2), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 0.95rem;">
+                    المنصة من تطوير يحي مسعود، طالب دكتوراه في العلوم الاقتصادية، جامعة الجزائر3
+                </p>
+                <p style="background: linear-gradient(to left, var(--gold), var(--gold2), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 0.9rem;">
+                    المنصة مصممة لأغراض البحث العلمي فقط
+                </p>
+            </div>
+            <div style="width: 100%; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                <span class="footer-copy">جميع الحقوق محفوظة &copy; 2025 <span style="color:var(--gold);font-weight:700">Sivar</span></span>
+                <div class="footer-pays"><div class="footer-pay">CCP</div><div class="footer-pay">CIB</div><div class="footer-pay">DAHABIA</div><div class="footer-pay">EDAHABIA</div></div>
+            </div>
         </div>
     </div>
 </footer>
@@ -348,21 +362,61 @@ var CAT_EMOJIS_S = {'صيانة وتصليح الأجهزة':'🔧','تنظيف 
 function fmt(v){return new Intl.NumberFormat('ar-DZ').format(Number(v))+' دج'}
 function scrollRow(id,dir){document.getElementById(id).scrollBy({left:dir*300,behavior:'smooth'})}
 
-function showCatTab(type,btn){
+function buildServiceCard(s){
+    var img = s.image_main || PLACEHOLDER;
+    var badgeH = '';
+    var price = s.price;
+    var vendorName = s.vendor_name || '';
+    return '<div class="p-card"><div class="p-img"><img src="'+img+'" alt="'+s.name+'" onerror="this.src=\''+PLACEHOLDER+'\'">'+badgeH+'</div><div class="p-body"><div class="p-store">'+vendorName+'</div><div class="p-title">'+s.name+'</div><div class="p-footer"><div><span class="p-price">'+fmt(price)+'</span></div><button class="p-add" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg></button></div></div></div>';
+}
+
+function switchHomepageMode(mode,btn){
     document.querySelectorAll('.cat-tab').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
+    if(btn) btn.classList.add('active');
     if(!DATA) return;
+    
+    // 1. Update Grid
     var grid=document.getElementById('catGrid');
-    var cats = type==='products' ? DATA.product_categories : DATA.service_categories;
-    var emojis = type==='products' ? CAT_EMOJIS_P : CAT_EMOJIS_S;
-    var unit = type==='products' ? 'منتج' : 'خدمة';
-    var countKey = type==='products' ? 'product_count' : 'service_count';
+    var cats = mode==='products' ? DATA.product_categories : DATA.service_categories;
+    var emojis = mode==='products' ? CAT_EMOJIS_P : CAT_EMOJIS_S;
+    var unit = mode==='products' ? 'منتج' : 'خدمة';
+    var countKey = mode==='products' ? 'product_count' : 'service_count';
     var html='';
     cats.forEach(function(c){
-        var emoji = emojis[c.name] || (type==='products'?'📦':'🛠️');
+        var emoji = emojis[c.name] || (mode==='products'?'📦':'🛠️');
         html+='<div class="cat-card"><span class="cat-emoji">'+emoji+'</span><div class="cat-name">'+c.name+'</div><div class="cat-count">'+c[countKey]+' '+unit+'</div></div>';
     });
     grid.innerHTML = html || '<p style="grid-column:1/-1;text-align:center;color:var(--dim);padding:40px">لا توجد تصنيفات حالياً</p>';
+
+    // 2. Update Sliders
+    var ls = document.getElementById('latestScroll');
+    var ds = document.getElementById('dealsScroll');
+    var t1 = document.getElementById('latestSectionTitle');
+    var t2 = document.getElementById('dealsSectionTitle');
+
+    if(mode === 'products') {
+        if(t1) t1.textContent = 'أحدث المنتجات';
+        if(t2) t2.textContent = 'عروض وخصومات';
+        
+        if(DATA.latest_products && DATA.latest_products.length){
+            ls.innerHTML = DATA.latest_products.map(buildProductCard).join('');
+        } else { ls.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد منتجات حالياً</p>'; }
+        
+        if(DATA.discounted_products && DATA.discounted_products.length){
+            ds.innerHTML = DATA.discounted_products.map(buildProductCard).join('');
+        } else { ds.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد عروض حالياً</p>'; }
+    } else {
+        if(t1) t1.textContent = 'أحدث الخدمات';
+        if(t2) t2.textContent = 'خدمات مميزة';
+        
+        if(DATA.latest_services && DATA.latest_services.length){
+            ls.innerHTML = DATA.latest_services.map(buildServiceCard).join('');
+        } else { ls.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد خدمات حالياً</p>'; }
+        
+        if(DATA.featured_services && DATA.featured_services.length){
+            ds.innerHTML = DATA.featured_services.map(buildServiceCard).join('');
+        } else { ds.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد خدمات مميزة حالياً</p>'; }
+    }
 }
 
 function buildProductCard(p){
@@ -393,8 +447,8 @@ function render(){
     document.getElementById('statServices').textContent = '+'+DATA.stats.total_services;
     document.getElementById('statWilayas').textContent = DATA.stats.total_wilayas;
 
-    // Categories (products tab default)
-    showCatTab('products', document.querySelector('.cat-tab.active'));
+    // Categories & Sections Initializer (products tab default)
+    switchHomepageMode('products', document.querySelector('.cat-tab.active'));
 
     // Stores
     var sg = document.getElementById('storesGrid');
@@ -407,18 +461,6 @@ function render(){
     if(DATA.featured_institutions.length){
         ig.innerHTML = DATA.featured_institutions.map(function(s){return buildStoreCard(s,'institution')}).join('');
     } else { ig.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--dim);padding:60px">لا توجد مؤسسات مسجلة بعد</p>'; }
-
-    // Latest Products
-    var ls = document.getElementById('latestScroll');
-    if(DATA.latest_products.length){
-        ls.innerHTML = DATA.latest_products.map(buildProductCard).join('');
-    } else { ls.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد منتجات حالياً</p>'; }
-
-    // Deals
-    var ds = document.getElementById('dealsScroll');
-    if(DATA.discounted_products.length){
-        ds.innerHTML = DATA.discounted_products.map(buildProductCard).join('');
-    } else { ds.innerHTML='<p style="text-align:center;color:var(--dim);padding:60px;width:100%">لا توجد عروض حالياً — ترقبوا العروض القادمة!</p>'; }
 }
 
 // Fetch data

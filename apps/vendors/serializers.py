@@ -196,12 +196,15 @@ class VendorProductSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False
     )
+    vendor_username = serializers.CharField(source='vendor.username', read_only=True)
+    vendor_name     = serializers.SerializerMethodField()
 
     class Meta:
         model  = Product
         fields = [
             'id', 'name', 'slug', 'description', 'price', 'discount_price', 'stock',
             'stock_status', 'is_active', 'is_featured', 'category', 'category_name',
+            'vendor_username', 'vendor_name',
             'image_main', 'images', 'uploaded_images',
             'total_sold', 'total_revenue', 'avg_rating', 'reviews_count',
             'created_at', 'updated_at',
@@ -227,6 +230,12 @@ class VendorProductSerializer(serializers.ModelSerializer):
         if obj.stock <= 5:   return 'critical'
         if obj.stock <= 10:  return 'low'
         return 'ok'
+
+    def get_vendor_name(self, obj) -> str:
+        if not obj.vendor:
+            return "مجهول"
+        full_name = obj.vendor.get_full_name()
+        return full_name.strip() or obj.vendor.username
 
 
 # ══════════════════════════════════════════════

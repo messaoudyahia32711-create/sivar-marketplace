@@ -738,6 +738,24 @@ class HomepageAPIView(APIView):
             .order_by('-created_at')[:12]
         )
 
+        # ── 7.5) Services ──
+        latest_services = (
+            Service.objects
+            .filter(is_active=True)
+            .select_related('category', 'vendor')
+            .prefetch_related('images', 'wilayas')
+            .order_by('-created_at')[:12]
+        )
+        # We don't have is_featured on Services yet, so we'll just sort by some other metric or take top 12.
+        featured_services = (
+            Service.objects
+            .filter(is_active=True)
+            .select_related('category', 'vendor')
+            .prefetch_related('images', 'wilayas')
+            .annotate(wilayas_count=Count('wilayas'))
+            .order_by('-wilayas_count', '-created_at')[:12]
+        )
+
         # ── 8) Stats ──
         total_stores = Store.objects.filter(
             vendor__role__in=['VENDOR', 'SELLER']
@@ -796,6 +814,8 @@ class HomepageAPIView(APIView):
                 'service_count': c.service_count,
             })
 
+        from apps.services.serializers import ServiceSerializer
+        
         return Response({
             'product_categories': product_cat_data,
             'service_categories': service_cat_data,
@@ -809,6 +829,12 @@ class HomepageAPIView(APIView):
             ).data,
             'latest_products': VendorProductSerializer(
                 latest_products, many=True, context={'request': request}
+            ).data,
+            'featured_services': ServiceSerializer(
+                featured_services, many=True, context={'request': request}
+            ).data,
+            'latest_services': ServiceSerializer(
+                latest_services, many=True, context={'request': request}
             ).data,
             'stats': {
                 'total_stores': total_stores,

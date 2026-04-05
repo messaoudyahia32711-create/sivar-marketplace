@@ -97,8 +97,8 @@ class ProductSerializer(serializers.ModelSerializer):
     images   = ProductImageSerializer(many=True, read_only=True)
 
     # ── Computed Fields ────────────────────────────────────────────────────────
-    # SerializerMethodField → يستدعي get_<field_name>(self, obj) تلقائياً.
     vendor_name         = serializers.SerializerMethodField()
+    vendor_username     = serializers.CharField(source='vendor.username', read_only=True)
     is_in_stock         = serializers.SerializerMethodField()
     final_price         = serializers.SerializerMethodField()
     discount_percentage = serializers.SerializerMethodField()
@@ -116,6 +116,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'category',            # Nested object {id, name, slug}
             'vendor',              # FK ID (للمرجعية التقنية)
             'vendor_name',         # computed: اسم البائع
+            'vendor_username',     # username
             # ── التسعير ───────────────────────────────────
             'price',               # السعر الأصلي
             'discount_price',      # سعر الخصم (nullable)

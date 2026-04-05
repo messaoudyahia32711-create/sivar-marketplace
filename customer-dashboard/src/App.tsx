@@ -6,6 +6,7 @@ import DashboardPage from './pages/Dashboard/DashboardPage'
 import OrdersPage from './pages/Orders/OrdersPage'
 import MessagesPage from './pages/Messages/MessagesPage'
 import SettingsPage from './pages/Settings/SettingsPage'
+import StorePage from './pages/StorePage/StorePage'
 
 import { useAuth } from './hooks/useAuth'
 
@@ -47,6 +48,9 @@ function App() {
         <Route path="/settings" element={
           <ProtectedRoute><SettingsPage /></ProtectedRoute>
         } />
+
+        {/* ── Public Store Page (بدون مصادقة) ── */}
+        <Route path="/store/:username" element={<StorePage />} />
 
         {/* Redirects: الحفاظ على المعاملات عند التحويل التلقائي */}
         <Route path="/" element={<NavigateWithParams to="/dashboard" />} />
